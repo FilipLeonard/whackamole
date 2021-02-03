@@ -1,0 +1,70 @@
+@import '_variables.scss';
+@import '_animations.scss';
+
+input {
+  font-family: inherit;
+  line-height: inherit;
+  color: #2e3750;
+}
+
+.gradient-text {
+  background-color: map-get($colors, main);
+  background-image: linear-gradient(
+    45deg,
+    map-get($colors, main),
+    map-get($colors, secondary)
+  );
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.hidden {
+  display: none;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.active {
+  background-color: map-get($colors, main);
+  // animation: switch-color $card-active-time linear forwards,
+  // shake 0.82s $card-active-time cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.wiggle {
+  animation: wiggle 0.3s 1 linear;
+}
+
+.btn-main {
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  border-radius: 99rem;
+  margin: 0.1rem;
+  background: linear-gradient(
+    21deg,
+    map-get($colors, main),
+    map-get($colors, secondary)
+  );
+  text-align: center;
+  color: white;
+  cursor: pointer;
+
+  &.btn-main__active {
+    background: linear-gradient(
+      21deg,
+      lighten(map-get($colors, main), 20%),
+      lighten(map-get($colors, secondary), 20%)
+    );
+  }
+}
+
+::placeholder {
+  color: #cbd0d5;
+}

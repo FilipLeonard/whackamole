@@ -1,3 +1,3 @@
 exports.getGame = (req, res, next) => {
-  res.send({ test: 'leo' });
+  res.render('index');
 };

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Whack-A-Mole</title>
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="./css/app.css" />
+    <script type="module" defer src="./js/app.js"></script>
+</head>
+
+<body>
+    <div class="backdrop hidden"></div>
+    <div class="modal hidden">
+        <h3 class="modal__title">Cancel and go back?</h3>
+        <div class="modal__actions">
+            <button class="btn-main modal__action modal__action--positive">Yes!</button>
+            <button class="btn-main modal__action modal__action--negative" type="button">No!</button>
+        </div>
+    </div>
+    <header class="main-header">
+        <h1 class="gradient-text">Whack-A-Mole</h1>
+    </header>
+    <main>
+        <section class="join">
+            <form action="#" method="POST">
+                <span class="input-container">
+                    <input class="name-input" type="text" name="name" placeholder="Your warrior name" />
+                    <span></span>
+                </span>
+            </form>
+            <div class="join-options">
+                <div class="join-options__cat join-modes">
+                    <a data-mode="survival" class="btn-main join-option join-mode">Survival</a>
+                    <a data-mode="battle" class="btn-main btn-main__active join-option join-mode">Battle</a>
+                </div>
+                <div class="join-options__cat join-diffs">
+                    <a data-difficulty="easy" class="btn-main btn-main__active join-option join-diff">Easy</a>
+                    <a data-difficulty="hard" class="btn-main join-option join-diff">Hard</a>
+                </div>
+            </div>
+            <button type="button" class="btn-main join__btn">Start</button>
+        </section>
+        <section class="game hidden">
+            <div class="game__score-board">
+                <button id="game-back" class="btn-main">Back</button>
+                <h4>Current score: <span id="current-score">0</span></h4>
+                <h4 id="battle-label" class="hidden">Time: <span id="remaining-time">60</span></h4>
+                <h4 id="survival-label" class="hidden">Lives: <span id="remaining-lives">3</span></h4>
+            </div>
+            <div class="game__grid gradient-text">
+                <div id="sq1" class="game__square card"></div>
+                <div id="sq2" class="game__square card"></div>
+                <div id="sq3" class="game__square card"></div>
+                <div id="sq4" class="game__square card"></div>
+                <div id="sq5" class="game__square card"></div>
+                <div id="sq6" class="game__square card"></div>
+                <div id="sq7" class="game__square card"></div>
+                <div id="sq8" class="game__square card"></div>
+                <div id="sq9" class="game__square card"></div>
+            </div>
+        </section>
+        <section class="results hidden">
+            <div class="results__game">
+                <div class="result__game">
+                    <h4>Whacks</h4><span id="result__whacks">0</span>
+                </div>
+                <div class="result__game">
+                    <h4>Points</h4><span id="result__points">0</span>
+                </div>
+                <div class="result__actions">
+                    <button class="btn-main result__action result__action--submit">Submit</button>
+                    <button class="btn-main result__action result__action--new" type="button">New game</button>
+                </div>
+            </div>
+            <div class="results__leaderboard">
+                <ul class="results_players">
+                    <li class="results__player">Mike</li>
+                    <li class="results__player">John</li>
+                    <li class="results__player">Penny</li>
+                    <li class="results__player">Julia</li>
+                    <li class="results__player">Ale</li>
+                    <li class="results__player">Leo</li>
+                    <li class="results__player">Roby</li>
+                    <li class="results__player">Tupac</li>
+                    <li class="results__player">Eminem</li>
+                    <li class="results__player">Iohannis</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer gradient-text">
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, aliquid
+            velit explicabo natus incidunt eveniet.
+        </p>
+    </footer>
+</body>
+
+</html>
