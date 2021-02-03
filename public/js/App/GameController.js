@@ -71,15 +71,13 @@ export default class GameController {
   }
 
   displayGameView() {
-    DOMHelper.hideElement('.join');
     DOMHelper.displayElement(`#${this.userOptions.mode}-label`);
-    DOMHelper.displayElement('.game');
+    DOMHelper.displaySection('game');
   }
 
   displayHomeScreen() {
     DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
-    DOMHelper.hideElement('.game');
-    DOMHelper.displayElement('.join');
+    DOMHelper.displaySection('join');
   }
 
   connectGameOverHandler() {
@@ -97,10 +95,9 @@ export default class GameController {
 
   displayResultsView(whacks) {
     DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
-    DOMHelper.hideElement('.game');
     document.querySelector('#result__whacks').textContent = whacks;
     document.querySelector('#result__points').textContent = whacks * 35_000;
-    DOMHelper.displayElement('.results');
+    DOMHelper.displaySection('results');
   }
 
   gameOverActionsHandler(e) {

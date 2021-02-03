@@ -1,6 +1,8 @@
 import { GAME_OPTIONS, NUMBER_OF_CARDS } from './config.js';
 import DOMHelper from './Utility/DOMHelper.js';
 
+
+
 export default class Game {
   constructor(userOptions) {
     const { difficulty: diff } = userOptions;
@@ -157,5 +159,12 @@ export default class Game {
     let activeCards = this.gameGrid.querySelectorAll('.game__square.active');
     activeCards.forEach(card => card.classList.remove('active'));
     activeCards = this.gameGrid.querySelectorAll('.game__square.active');
+  }
+
+  dispatchGameOver() {
+    const gameOverEvent = new CustomEvent('gameover', {
+      detail: this.stats.score.currentScore,
+    });
+    this.gameGrid.parentElement.dispatchEvent(gameOverEvent);
   }
 }

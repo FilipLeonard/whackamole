@@ -27,11 +27,7 @@ export default class SurvivalGame extends Game {
     this.stats.lives.looseOne();
     if (this.stats.lives.remainingLives === 0) {
       clearInterval(this.gameLoop);
-      // alert('Survival over! 😎');
-      const gameOverEvent = new CustomEvent('gameover', {
-        detail: this.stats.score.currentScore,
-      });
-      this.gameGrid.parentElement.dispatchEvent(gameOverEvent);
+      this.dispatchGameOver();
     }
   }
 

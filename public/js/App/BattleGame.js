@@ -19,9 +19,9 @@ export default class BattleGame extends Game {
           this.battleTimer = setTimeout(() => {
             clearInterval(this.countdown);
             clearInterval(this.gameLoop);
-            alert('Battle over! 😎');
             clearTimeout(this.battleTimer);
-          }, (this.remainingTime + 1) * 1000);
+            this._dispatchGameOver();
+          }, this.remainingTime * 1000);
         },
         startTimer() {
           this.startCountdown();
@@ -31,6 +31,8 @@ export default class BattleGame extends Game {
           clearInterval(this.countdown);
           clearTimeout(this.battleTimer);
         },
+        // saving a reference to method Game.dispatchGameOver from parent class Game
+        _dispatchGameOver: this.dispatchGameOver.bind(this),
       },
     });
   }
