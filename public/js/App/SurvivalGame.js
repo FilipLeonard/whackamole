@@ -1,4 +1,4 @@
-import Game from './game.js';
+import Game from './Game.js';
 
 export default class SurvivalGame extends Game {
   constructor(userOptions) {
@@ -10,10 +10,6 @@ export default class SurvivalGame extends Game {
         looseOne() {
           this.remainingLives--;
           this.el.textContent = this.remainingLives;
-          if (this.remainingLives === 0) {
-            clearInterval(this.gameLoop);
-            alert('Survival over! 😎');
-          }
         },
       },
     });
@@ -29,6 +25,14 @@ export default class SurvivalGame extends Game {
 
   processFailedWhack() {
     this.stats.lives.looseOne();
+    if (this.stats.lives.remainingLives === 0) {
+      clearInterval(this.gameLoop);
+      // alert('Survival over! 😎');
+      const gameOverEvent = new CustomEvent('gameover', {
+        detail: this.stats.score.currentScore,
+      });
+      this.gameGrid.parentElement.dispatchEvent(gameOverEvent);
+    }
   }
 
   resetStats() {

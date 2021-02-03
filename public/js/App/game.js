@@ -1,4 +1,5 @@
 import { GAME_OPTIONS, NUMBER_OF_CARDS } from './config.js';
+import DOMHelper from './Utility/DOMHelper.js';
 
 export default class Game {
   constructor(userOptions) {
@@ -129,11 +130,11 @@ export default class Game {
     this.updateStats();
     this.isCurrentPositionWhacked = false;
   }
-  pauseGame() {
+  pause() {
     clearInterval(this.gameLoop);
   }
 
-  resumeGame() {
+  resume() {
     this.startGameLoop();
   }
 
@@ -141,7 +142,10 @@ export default class Game {
     clearInterval(this.gameLoop);
     this.resetStats();
     this.resetGrid();
-    this.gameGrid.removeEventListener('click', this.whackHandler);
+    /* can't remove it like this because the actual listener is not whackHandler, 
+    it's a binded instance of it - whackHandler.bind(this) */
+    // this.gameGrid.removeEventListener('click', this.whackHandler);
+    DOMHelper.clearEventListeners(this.gameGrid);
   }
 
   resetStats() {
@@ -150,11 +154,8 @@ export default class Game {
   }
 
   resetGrid() {
-    // deactivate all cards
-    console.log('resettingGrid.');
     let activeCards = this.gameGrid.querySelectorAll('.game__square.active');
     activeCards.forEach(card => card.classList.remove('active'));
     activeCards = this.gameGrid.querySelectorAll('.game__square.active');
-    console.log({ activeCards });
   }
 }

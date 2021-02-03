@@ -1,4 +1,4 @@
-import Game from './game.js';
+import Game from './Game.js';
 import { GAME_OPTIONS } from './config.js';
 
 export default class BattleGame extends Game {
@@ -44,10 +44,9 @@ export default class BattleGame extends Game {
     this.stats.time.gameLoop = this.gameLoop;
   }
 
-  pauseGame() {
-    Game.prototype.pauseGame.call(this);
+  pause() {
+    Game.prototype.pause.call(this);
     this.stats.time.pauseTimer();
-    console.log(this);
   }
 
   quit() {
