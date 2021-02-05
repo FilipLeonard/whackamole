@@ -89,7 +89,7 @@ main {
   display: inline-block;
   border-radius: 99rem;
   transform: scale(0.01);
-  animation: scale-in 1s ease-out 1s forwards;
+  animation: scale-in 1s ease-out forwards;
 }
 .input-container .name-input {
   position: relative;

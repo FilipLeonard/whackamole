@@ -6,18 +6,32 @@
     <meta content="utf-8" http-equiv="encoding">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Whack-A-Mole</title>
-    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="./css/normalize.css" />
     <link rel="stylesheet" href="./css/app.css" />
     <script type="module" defer src="./js/app.js"></script>
 </head>
 
 <body>
     <div class="backdrop hidden"></div>
-    <div class="modal hidden">
+    <div class="modal modal--cancel hidden">
         <h3 class="modal__title">Cancel and go back?</h3>
         <div class="modal__actions">
-            <button class="btn-main modal__action modal__action--positive">Yes!</button>
-            <button class="btn-main modal__action modal__action--negative" type="button">No!</button>
+            <button class="btn-main modal__action modal__action--cancel">Yes!</button>
+            <button class="btn-main modal__action modal__action--resume" type="button">No!</button>
+        </div>
+    </div>
+    <div class="modal modal--results hidden">
+        <div class="results__game">
+            <div class="result__game">
+                <h4>Whacks</h4><span id="result__whacks">0</span>
+            </div>
+            <div class="result__game">
+                <h4>Points</h4><span id="result__points">0</span>
+            </div>
+        </div>
+        <div class="modal__actions">
+            <button class="btn-main modal__action modal__action--submit">Submit score</button>
+            <button class="btn-main modal__action modal__action--new-game" type="button">New game</button>
         </div>
     </div>
     <header class="main-header">
@@ -25,9 +39,9 @@
     </header>
     <main>
         <section class="join">
-            <form action="#" method="POST">
+            <form action="#">
                 <span class="input-container">
-                    <input class="name-input" type="text" name="name" placeholder="Your warrior name" />
+                    <input class="name-input" type="text" name="name" placeholder="Your warrior name" value="Whacker" />
                     <span></span>
                 </span>
             </form>
@@ -63,7 +77,7 @@
             </div>
         </section>
         <section class="results hidden">
-            <div class="results__game">
+            <!-- <div class="results__game">
                 <div class="result__game">
                     <h4>Whacks</h4><span id="result__whacks">0</span>
                 </div>
@@ -74,7 +88,7 @@
                     <button class="btn-main result__action result__action--submit">Submit</button>
                     <button class="btn-main result__action result__action--new" type="button">New game</button>
                 </div>
-            </div>
+            </div> -->
             <div class="results__leaderboard">
                 <ul class="results_players">
                     <li class="results__player">Mike</li>
