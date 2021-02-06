@@ -17,9 +17,13 @@ const gameSchema = new Schema(
     state: {
       type: String,
       default: 'started',
-      enum: ['started', 'canceled', 'finished'],
+      enum: ['started', 'cancelled', 'finished', 'submitted'],
     },
     whacks: {
+      type: Number,
+      default: 0,
+    },
+    partialPoints: {
       type: Number,
       default: 0,
     },

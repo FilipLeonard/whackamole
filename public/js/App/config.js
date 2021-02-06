@@ -13,12 +13,12 @@ const GAME_OPTIONS = {
   },
   difficulty: {
     easy: {
-      ACTIVE_TIME: 800,
-      NEUTRAL_TIME: 800,
+      ACTIVE_TIME: 700,
+      NEUTRAL_TIME: 700,
     },
     hard: {
-      ACTIVE_TIME: 400,
-      NEUTRAL_TIME: 400,
+      ACTIVE_TIME: 500,
+      NEUTRAL_TIME: 500,
     },
   },
 };

@@ -1,5 +1,6 @@
 import GameFactory from './GameFactory.js';
 import DOMHelper from './Utility/DOMHelper.js';
+import Backend from './Utility/Backend.js';
 
 const MIN_LENGTH_PLAYER_NAME = 5;
 const MODALS = {
@@ -10,36 +11,21 @@ const MODALS = {
 export default class GameController {
   constructor() {
     this.connectStartButton();
-    this.connectBackButton();
+    this.connectCancelGameButton();
     this.connectGameOverHandler();
   }
 
   connectStartButton() {
     document
-      .querySelector('.join__btn')
+      .querySelector('.btn-start-game')
       .addEventListener('click', this.startButtonHandler.bind(this));
   }
 
   async startButtonHandler() {
-    this.userOptions = this.getUserOptions();
+    const details = this.getNewGameDetails();
     try {
-      const playerName = this.getPlayerName();
-      const newGameDetails = {
-        name: playerName,
-        ...this.userOptions,
-      };
-      const res = await fetch('/game-start', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newGameDetails),
-      });
-      if (!res.ok) {
-        throw new Error('Failed to start a new game..');
-      }
-      const { game } = await res.json();
-      this.gameId = game._id;
+      const result = await Backend.startNewGame(details);
+      this.gameId = result.game._id;
     } catch (error) {
       // render error messages
       return console.error(error);
@@ -49,11 +35,13 @@ export default class GameController {
     this.game.start();
   }
 
-  getPlayerName() {
-    const name = document.querySelector('.join .name-input').value;
-    if (name.length < MIN_LENGTH_PLAYER_NAME)
-      throw new Error('Player name minimum length is 5 characters');
-    return name;
+  getNewGameDetails() {
+    this.playerName = this.getPlayerName();
+    this.userOptions = this.getUserOptions();
+    return {
+      name: this.playerName,
+      ...this.userOptions,
+    };
   }
 
   getUserOptions() {
@@ -64,7 +52,19 @@ export default class GameController {
     return { mode, difficulty };
   }
 
-  connectBackButton() {
+  getPlayerName() {
+    const name = document.querySelector('.join .name-input').value;
+    if (name.length < MIN_LENGTH_PLAYER_NAME)
+      throw new Error('Player name minimum length is 5 characters');
+    return name;
+  }
+
+  displayGameView() {
+    DOMHelper.displayElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.displaySection('game');
+  }
+
+  connectCancelGameButton() {
     this.connectModal(MODALS.CANCEL_GAME);
     document
       .querySelector('#game-back')
@@ -91,59 +91,60 @@ export default class GameController {
   async modalCancelHandler(e) {
     const action = e.target.closest('.modal__action');
     if (!action) return;
-    const playerConfirmsCancel = action.classList.contains(
-      'modal__action--cancel'
-    );
-    const playerResumesGame = action.classList.contains(
-      'modal__action--resume'
-    );
-    if (playerConfirmsCancel) {
+    const playerAction = {
+      isConfirmCancel: action.classList.contains('modal__action--cancel'),
+      isResumeGame: action.classList.contains('modal__action--resume'),
+    };
+    if (playerAction.isConfirmCancel) {
       this.game.quit();
-      try {
-        const res = await fetch(`/game-cancel/${this.gameId}`, {
-          method: 'PATCH',
-        });
-        if (!res.ok) {
-          throw new Error('Failed to cancel new game..');
-        }
-        const { message } = await res.json();
-        console.log({ message });
-        // reset some state TODO: reset everything relevant
-        this.gameId = null;
-        // TODO render user message
-      } catch (error) {
-        // render error messages
-        return console.error(error);
-      }
+      await Backend.cancelGame(this.gameId);
+      this.gameId = null; // TODO: reset everything relevant
       this.displayHomeScreen();
-    } else if (playerResumesGame) {
+    } else if (playerAction.isResumeGame) {
       this.game.resume();
     }
     this.hideModal(MODALS.CANCEL_GAME);
+  }
+
+  displayHomeScreen() {
+    DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.displaySection('join');
+  }
+
+  hideModal(modalType) {
+    ['.backdrop', `.modal--${modalType}`].forEach(DOMHelper.hideElement);
   }
 
   async modalResultsHandler(e) {
     const action = e.target.closest('.modal__action');
     if (!action) return;
     this.game.quit();
-    const playerChoseSumbit = action.classList.contains(
-      'modal__action--submit'
-    );
-    const playerChoseNewGame = action.classList.contains(
-      'modal__action--new-game'
-    );
-    if (playerChoseSumbit) {
-      try {
-        console.log('Submitting score to server..');
-      } catch (error) {
-        // render error messages
-        return console.error(error);
-      }
+    const playerAction = {
+      isSubmitScore: action.classList.contains('modal__action--submit'),
+      isStartNewGame: action.classList.contains('modal__action--new-game'),
+    };
+    if (playerAction.isSubmitScore) {
+      await Backend.submitScore(this.gameId);
+      const { leaderboard } = await Backend.getLeaderboard();
+      this.renderResultsView(leaderboard);
       this.displayResultsView();
-    } else if (playerChoseNewGame) {
+    } else if (playerAction.isStartNewGame) {
       this.displayHomeScreen();
     }
     this.hideModal(MODALS.GAME_RESULTS);
+  }
+
+  renderResultsView(leaderboard) {
+    const markup = `${leaderboard
+      .map(
+        game =>
+          `<li class="results__player">${game.playerName} ${game.points}</li>`
+      )
+      .join(' ')}
+    `;
+    const resultsContainer = document.querySelector('.results__players');
+    resultsContainer.innerHTML = '';
+    resultsContainer.insertAdjacentHTML('afterbegin', markup);
   }
 
   displayResultsView() {
@@ -152,26 +153,17 @@ export default class GameController {
   }
 
   backButtonHandler() {
-    this.game.pause();
-    this.showModal(MODALS.CANCEL_GAME);
+    const visibleSection = DOMHelper.getVisibleSection();
+    if (visibleSection === 'game') {
+      this.game.pause();
+      this.showModal(MODALS.CANCEL_GAME);
+    } else if (visibleSection === 'results') {
+      this.displayHomeScreen();
+    }
   }
 
   showModal(modalType) {
     ['.backdrop', `.modal--${modalType}`].forEach(DOMHelper.displayElement);
-  }
-
-  hideModal(modalType) {
-    ['.backdrop', `.modal--${modalType}`].forEach(DOMHelper.hideElement);
-  }
-
-  displayGameView() {
-    DOMHelper.displayElement(`#${this.userOptions.mode}-label`);
-    DOMHelper.displaySection('game');
-  }
-
-  displayHomeScreen() {
-    DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
-    DOMHelper.displaySection('join');
   }
 
   connectGameOverHandler() {
@@ -179,16 +171,17 @@ export default class GameController {
     document
       .querySelector('.game')
       .addEventListener('gameover', this.gameOverHandler.bind(this));
-    // document
-    //   .querySelector('.result__actions')
-    //   .addEventListener('click', this.gameOverActionsHandler.bind(this));
   }
 
-  gameOverHandler({ detail: whacks }) {
-    // PATCH /game-over
-    // this.displayResultsView(whacks);
-    document.querySelector('#result__whacks').textContent = whacks;
-    document.querySelector('#result__points').textContent = whacks * 35_000;
+  gameOverHandler(gameOverEvent) {
+    const { gameStats } = gameOverEvent.detail;
+    Backend.finishGame(this.gameId, gameStats);
+    this.populateResultsModal(gameStats);
     this.showModal(MODALS.GAME_RESULTS);
+  }
+
+  populateResultsModal(gameStats) {
+    document.querySelector('#result__whacks').textContent = gameStats.whacks;
+    document.querySelector('#result__points').textContent = gameStats.points;
   }
 }

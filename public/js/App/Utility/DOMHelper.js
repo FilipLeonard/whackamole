@@ -26,6 +26,13 @@ export default class DOMHelper {
     }
   }
 
+  static getVisibleSection() {
+    const visibleSection = document.querySelector('section:not(.hidden)')
+      .className;
+    if (!visibleSection) throw new Error('No section is visible');
+    return visibleSection;
+  }
+
   static clearEventListeners(element) {
     const clonedElement = element.cloneNode(true);
     element.replaceWith(clonedElement);

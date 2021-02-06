@@ -36,6 +36,7 @@
     </div>
     <header class="main-header">
         <h1 class="gradient-text">Whack-A-Mole</h1>
+        <button id="game-back" class="btn-main">Back</button>
     </header>
     <main>
         <section class="join">
@@ -55,11 +56,10 @@
                     <a data-difficulty="hard" class="btn-main join-option join-diff">Hard</a>
                 </div>
             </div>
-            <button type="button" class="btn-main join__btn">Start</button>
+            <button type="button" class="btn-main btn-start-game">Start</button>
         </section>
         <section class="game hidden">
             <div class="game__score-board">
-                <button id="game-back" class="btn-main">Back</button>
                 <h4>Current score: <span id="current-score">0</span></h4>
                 <h4 id="battle-label" class="hidden">Time: <span id="remaining-time">60</span></h4>
                 <h4 id="survival-label" class="hidden">Lives: <span id="remaining-lives">3</span></h4>
@@ -77,21 +77,9 @@
             </div>
         </section>
         <section class="results hidden">
-            <!-- <div class="results__game">
-                <div class="result__game">
-                    <h4>Whacks</h4><span id="result__whacks">0</span>
-                </div>
-                <div class="result__game">
-                    <h4>Points</h4><span id="result__points">0</span>
-                </div>
-                <div class="result__actions">
-                    <button class="btn-main result__action result__action--submit">Submit</button>
-                    <button class="btn-main result__action result__action--new" type="button">New game</button>
-                </div>
-            </div> -->
             <div class="results__leaderboard">
-                <ul class="results_players">
-                    <li class="results__player">Mike</li>
+                <ul class="results__players">
+                    <!-- <li class="results__player">Mike</li>
                     <li class="results__player">John</li>
                     <li class="results__player">Penny</li>
                     <li class="results__player">Julia</li>
@@ -100,7 +88,7 @@
                     <li class="results__player">Roby</li>
                     <li class="results__player">Tupac</li>
                     <li class="results__player">Eminem</li>
-                    <li class="results__player">Iohannis</li>
+                    <li class="results__player">Iohannis</li> -->
                 </ul>
             </div>
         </section>

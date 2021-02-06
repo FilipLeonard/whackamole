@@ -1,8 +1,6 @@
 import { GAME_OPTIONS, NUMBER_OF_CARDS } from './config.js';
 import DOMHelper from './Utility/DOMHelper.js';
 
-
-
 export default class Game {
   constructor(userOptions) {
     const { difficulty: diff } = userOptions;
@@ -17,10 +15,16 @@ export default class Game {
     this.stats = {
       score: {
         el: document.querySelector('#current-score'),
-        currentScore: 0,
+        whacks: 0,
+        points: 0,
         add(addition) {
-          this.currentScore += addition;
-          this.el.textContent = this.currentScore;
+          this.whacks += addition;
+          this.points += this.getDynamicPoints();
+          this.el.textContent = this.whacks;
+        },
+        getDynamicPoints() {
+          const random = Math.random() * 35000;
+          return random - (random % 1000);
         },
       },
     };
@@ -152,7 +156,7 @@ export default class Game {
 
   resetStats() {
     const { score } = this.stats;
-    this.stats.score.add(-score.currentScore);
+    this.stats.score.add(-score.whacks);
   }
 
   resetGrid() {
@@ -162,8 +166,10 @@ export default class Game {
   }
 
   dispatchGameOver() {
+    const { whacks, points } = this.stats.score;
+
     const gameOverEvent = new CustomEvent('gameover', {
-      detail: this.stats.score.currentScore,
+      detail: { gameStats: { whacks, points } },
     });
     this.gameGrid.parentElement.dispatchEvent(gameOverEvent);
   }

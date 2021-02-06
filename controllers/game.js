@@ -31,7 +31,7 @@ exports.putGameStart = async (req, res, next) => {
     player,
   });
 
-  const result = await newGame.save();
+  await newGame.save();
 
   res.status(status).json({ message: 'Starting new game..', game: newGame });
 };
@@ -42,10 +42,61 @@ exports.patchGameCancel = async (req, res, next) => {
   if (!game) {
     // TODO error handling
   }
-  game.state = 'canceled';
+  game.state = 'cancelled';
   await game.save();
 
   res.status(200).json({
     message: 'Game canceled',
+  });
+};
+
+exports.patchGameFinish = async (req, res, next) => {
+  const { gameId } = req.params;
+  const { whacks, points } = req.body;
+  const game = await Game.findById(gameId);
+  if (!game) {
+    // TODO error handling
+  }
+  game.state = 'finished';
+  game.whacks = whacks;
+  game.partialPoints = points;
+  const finishedGame = await game.save();
+  res.status(200).json({
+    message: 'Game finished',
+  });
+};
+
+exports.patchSubmitScore = async (req, res, next) => {
+  const { gameId } = req.params;
+
+  const game = await Game.findById(gameId);
+  if (!game) {
+    // TODO error handling
+  }
+  game.state = 'submitted';
+  game.points = game.partialPoints;
+  const finalGame = await game.save();
+  res.status(200).json({
+    message: 'Score submitted successfully..',
+  });
+};
+
+exports.getLeaderboard = async (req, res, next) => {
+  const topGames = await Game.find()
+    .populate('player')
+    .sort('-partialPoints')
+    .limit(10); // TODO magic number
+  if (!topGames) {
+    // TODO error handling
+  }
+  const leaderboard = topGames.map(game => ({
+    playerName: game.player.name,
+    mode: game.mode,
+    difficulty: game.difficulty,
+    points: game.partialPoints,
+  }));
+  res.status(200).json({
+    message: 'Leaderboard retrieved successfully..',
+    leaderboard,
   });
 };
