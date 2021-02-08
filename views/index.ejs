@@ -40,64 +40,62 @@
     </header>
     <main>
         <section class="join">
-            <form action="#">
+            <div class="section__content">
                 <span class="input-container">
                     <input class="name-input" type="text" name="name" placeholder="Your warrior name" value="Whacker" />
                     <span></span>
                 </span>
-            </form>
-            <div class="join-options">
-                <div class="join-options__cat join-modes">
-                    <a data-mode="survival" class="btn-main join-option join-mode">Survival</a>
-                    <a data-mode="battle" class="btn-main btn-main__active join-option join-mode">Battle</a>
+                <div class="join-options">
+                    <div class="join-options__cat join-modes">
+                        <a data-mode="survival" class="btn-main join-option join-mode">Survival</a>
+                        <a data-mode="battle" class="btn-main btn-main__active join-option join-mode">Battle</a>
+                    </div>
+                    <div class="join-options__cat join-diffs">
+                        <a data-difficulty="easy" class="btn-main btn-main__active join-option join-diff">Easy</a>
+                        <a data-difficulty="hard" class="btn-main join-option join-diff">Hard</a>
+                    </div>
                 </div>
-                <div class="join-options__cat join-diffs">
-                    <a data-difficulty="easy" class="btn-main btn-main__active join-option join-diff">Easy</a>
-                    <a data-difficulty="hard" class="btn-main join-option join-diff">Hard</a>
-                </div>
+                <button type="button" class="btn-main btn-start-game">Start</button>
             </div>
-            <button type="button" class="btn-main btn-start-game">Start</button>
         </section>
         <section class="game hidden">
-            <div class="game__score-board">
-                <h4>Current score: <span id="current-score">0</span></h4>
-                <h4 id="battle-label" class="hidden">Time: <span id="remaining-time">60</span></h4>
-                <h4 id="survival-label" class="hidden">Lives: <span id="remaining-lives">3</span></h4>
-            </div>
-            <div class="game__grid gradient-text">
-                <div id="sq1" class="game__square card"></div>
-                <div id="sq2" class="game__square card"></div>
-                <div id="sq3" class="game__square card"></div>
-                <div id="sq4" class="game__square card"></div>
-                <div id="sq5" class="game__square card"></div>
-                <div id="sq6" class="game__square card"></div>
-                <div id="sq7" class="game__square card"></div>
-                <div id="sq8" class="game__square card"></div>
-                <div id="sq9" class="game__square card"></div>
+            <div class="section__content">
+                <div class="game__scoreboard">
+                    <h4>Current score: <span id="current-score">0</span></h4>
+                    <h4 id="battle-label" class="hidden">Time: <span id="remaining-time">60</span></h4>
+                    <h4 id="survival-label" class="hidden">Lives: <span id="remaining-lives">3</span></h4>
+                </div>
+                <div class="game__grid gradient-text">
+                    <div id="sq1" class="game__square card"></div>
+                    <div id="sq2" class="game__square card"></div>
+                    <div id="sq3" class="game__square card"></div>
+                    <div id="sq4" class="game__square card"></div>
+                    <div id="sq5" class="game__square card"></div>
+                    <div id="sq6" class="game__square card"></div>
+                    <div id="sq7" class="game__square card"></div>
+                    <div id="sq8" class="game__square card"></div>
+                    <div id="sq9" class="game__square card"></div>
+                </div>
             </div>
         </section>
         <section class="results hidden">
-            <div class="results__leaderboard">
-                <ul class="results__players">
-                    <!-- <li class="results__player">Mike</li>
-                    <li class="results__player">John</li>
-                    <li class="results__player">Penny</li>
-                    <li class="results__player">Julia</li>
-                    <li class="results__player">Ale</li>
-                    <li class="results__player">Leo</li>
-                    <li class="results__player">Roby</li>
-                    <li class="results__player">Tupac</li>
-                    <li class="results__player">Eminem</li>
-                    <li class="results__player">Iohannis</li> -->
-                </ul>
+            <div class="section__content">
+                <div class="results__leaderboard">
+                    <ul class="results__players">
+                    </ul>
+                </div>
             </div>
         </section>
     </main>
     <footer class="main-footer gradient-text">
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, aliquid
-            velit explicabo natus incidunt eveniet.
-        </p>
+        <section>
+            <div class="section__content">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, aliquid
+                    velit explicabo natus incidunt eveniet.
+                </p>
+            </div>
+        </section>
     </footer>
 </body>
 

@@ -72,6 +72,8 @@ export default class GameController {
   }
 
   connectModal(modalType) {
+    console.log('connectModal', { modalType });
+
     document
       .querySelector(`.modal--${modalType} .modal__actions`)
       .addEventListener('click', this.getModalHandler(modalType));
@@ -167,16 +169,21 @@ export default class GameController {
   }
 
   connectGameOverHandler() {
+    console.log('connectGameOverHandler');
     this.connectModal(MODALS.GAME_RESULTS);
-    document
-      .querySelector('.game')
-      .addEventListener('gameover', this.gameOverHandler.bind(this));
+    const gameSection = document.querySelector('.game');
+    console.log({ gameSection });
+    gameSection.addEventListener('gameover', this.gameOverHandler.bind(this));
   }
 
-  gameOverHandler(gameOverEvent) {
+  async gameOverHandler(gameOverEvent) {
+    console.log('Handling gameover', { gameOverEvent });
     const { gameStats } = gameOverEvent.detail;
-    Backend.finishGame(this.gameId, gameStats);
-    this.populateResultsModal(gameStats);
+    const finishResult = await Backend.finishGame(this.gameId, gameStats);
+    this.populateResultsModal({
+      whacks: gameStats.whacks,
+      points: finishResult.partialPoints,
+    });
     this.showModal(MODALS.GAME_RESULTS);
   }
 

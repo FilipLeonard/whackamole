@@ -73,12 +73,12 @@ main {
     transform: translate3d(4px, 0, 0);
   }
 }
-.join {
+.join .section__content {
+  height: 50%;
   display: flex;
-  flex-flow: column;
-  height: 100%;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
 }
 
 .input-container {
@@ -124,16 +124,18 @@ main {
 .join-options {
   display: grid;
   width: 100%;
+  row-gap: 10%;
 }
 .join-options .join-options__cat {
   display: flex;
   width: 100%;
+  justify-content: space-between;
 }
 .join-options .join-options__cat .join-option {
-  flex-grow: 1;
+  width: 45%;
 }
 
-.game__score-board {
+.game__scoreboard {
   display: flex;
   justify-content: space-around;
 }
@@ -276,6 +278,18 @@ input {
 
 ::placeholder {
   color: #cbd0d5;
+}
+
+section {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.section__content {
+  width: 21rem;
 }
 
 /*# sourceMappingURL=app.css.map */

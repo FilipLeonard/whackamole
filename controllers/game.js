@@ -1,12 +1,24 @@
 const Player = require('../models/player');
 const Dynasty = require('../models/dynasty');
 const Game = require('../models/game');
+const Scoring = require('../models/scoring');
 
-exports.getIndex = (req, res, next) => {
+exports.getIndex = async (req, res, next) => {
+  // const easyScoring = await Scoring.findOne({ difficulty: 'easy' });
+  // if (easyScoring) {
+  //   console.log('🎈🎈🎈easy scoring in place', { easyScoring });
+  // } else {
+  //   console.log(`🛑🛑🛑Scoring for difficulty ${'easy'} doesn't exist;`);
+  //   const scoring = new Scoring();
+  //   const newScoringResult = await scoring.save();
+  //   console.log('new scoring created', { newScoringResult });
+  // }
+  // await Scoring.calculatePoints('easy', 40);
+
   res.render('index');
 };
 
-exports.putGameStart = async (req, res, next) => {
+exports.putGameStart = async (req, res) => {
   const { name, mode, difficulty } = req.body;
   let status = 200;
 
@@ -36,14 +48,14 @@ exports.putGameStart = async (req, res, next) => {
   res.status(status).json({ message: 'Starting new game..', game: newGame });
 };
 
-exports.patchGameCancel = async (req, res, next) => {
+exports.patchGameCancel = async (req, res) => {
   const { gameId } = req.params;
-  const game = await Game.findById(gameId);
-  if (!game) {
+  const runningGame = await Game.findById(gameId);
+  if (!runningGame) {
     // TODO error handling
   }
-  game.state = 'cancelled';
-  await game.save();
+  runningGame.state = 'cancelled';
+  await runningGame.save();
 
   res.status(200).json({
     message: 'Game canceled',
@@ -53,29 +65,32 @@ exports.patchGameCancel = async (req, res, next) => {
 exports.patchGameFinish = async (req, res, next) => {
   const { gameId } = req.params;
   const { whacks, points } = req.body;
-  const game = await Game.findById(gameId);
-  if (!game) {
+  const runningGame = await Game.findById(gameId);
+  if (!runningGame) {
+    runningGame;
     // TODO error handling
   }
-  game.state = 'finished';
-  game.whacks = whacks;
-  game.partialPoints = points;
-  const finishedGame = await game.save();
+  runningGame.state = 'finished';
+  runningGame.whacks = whacks;
+  const partialPoints = await Scoring.calculatePoints('easy', whacks);
+  runningGame.partialPoints = partialPoints;
+  const finishedGame = await runningGame.save();
   res.status(200).json({
     message: 'Game finished',
+    partialPoints,
   });
 };
 
 exports.patchSubmitScore = async (req, res, next) => {
   const { gameId } = req.params;
 
-  const game = await Game.findById(gameId);
-  if (!game) {
+  const finishedGame = await Game.findById(gameId);
+  if (!finishedGame) {
     // TODO error handling
   }
-  game.state = 'submitted';
-  game.points = game.partialPoints;
-  const finalGame = await game.save();
+  finishedGame.state = 'submitted';
+  finishedGame.points = finishedGame.partialPoints;
+  const submittedGame = await finishedGame.save();
   res.status(200).json({
     message: 'Score submitted successfully..',
   });

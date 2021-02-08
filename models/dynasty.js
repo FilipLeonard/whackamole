@@ -34,6 +34,7 @@ const dynastySchema = new Schema({
     type: String,
     default: 'Winterfell',
   },
+  army: {},
 });
 
 module.exports = model('Dynasty', dynastySchema);

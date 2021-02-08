@@ -41,8 +41,7 @@ export default class Backend {
       if (!res.ok) {
         throw new Error('Failed to persist game finishing..');
       }
-      const finishResponse = await res.json();
-      return finishResponse;
+      return res.json();
     } catch (err) {
       return console.error(err);
     }

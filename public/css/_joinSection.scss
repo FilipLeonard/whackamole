@@ -1,12 +1,12 @@
 @import '_variables.scss';
 @import '_animations.scss';
 
-.join {
+.join .section__content {
+  height: 50%;
   display: flex;
-  flex-flow: column;
-  height: 100%;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
 }
 
 .input-container {
@@ -61,13 +61,19 @@
 .join-options {
   display: grid;
   width: 100%;
+  row-gap: 10%;
 
   .join-options__cat {
     display: flex;
     width: 100%;
+    justify-content: space-between;
 
     .join-option {
-      flex-grow: 1;
+      width: 45%;
+      // flex-grow: 1;
     }
   }
 }
+
+@media (min-width: 40rem) {
+} ;

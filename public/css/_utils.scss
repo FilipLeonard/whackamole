@@ -68,3 +68,15 @@ input {
 ::placeholder {
   color: #cbd0d5;
 }
+
+section {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.section__content {
+  width: 21rem;
+}

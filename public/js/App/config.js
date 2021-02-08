@@ -6,7 +6,7 @@ const GAME_OPTIONS = {
       lives: 3,
     },
     battle: {
-      ROUND_TIME: 5,
+      ROUND_TIME: 3,
     },
     SURVIVAL: 'survival',
     BATTLE: 'battle',

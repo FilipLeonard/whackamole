@@ -171,6 +171,6 @@ export default class Game {
     const gameOverEvent = new CustomEvent('gameover', {
       detail: { gameStats: { whacks, points } },
     });
-    this.gameGrid.parentElement.dispatchEvent(gameOverEvent);
+    this.gameGrid.closest('.game').dispatchEvent(gameOverEvent);
   }
 }
