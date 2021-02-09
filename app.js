@@ -20,8 +20,7 @@ app.set('views', 'views');
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.json());
-process.env.PWD = process.cwd();
-app.use(express.static(path.join(process.env.PWD, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use(gameRoutes);
@@ -34,5 +33,3 @@ mongoose
   .then(() => {
     app.listen(process.env.PORT || 3000);
   });
-
-// "start": "MONGO_USER=leooonard MONGO_PASSWORD=qwerty789 MONGO_DEFAULT_DATABASE=whackamole node app.js",
