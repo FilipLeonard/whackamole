@@ -22,25 +22,3 @@
   /* animation: wiggle 0.3s infinite linear; */
   /* border: 0.5rem solid white; */
 }
-
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal {
-  position: fixed;
-  z-index: 20;
-  top: 20%;
-  left: 30%;
-  width: 40%;
-  background: white;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-}

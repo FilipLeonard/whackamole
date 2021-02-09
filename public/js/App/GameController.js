@@ -11,7 +11,7 @@ const MODALS = {
 export default class GameController {
   constructor() {
     this.connectStartButton();
-    this.connectCancelGameButton();
+    this.connectBackButton();
     this.connectGameOverHandler();
   }
 
@@ -22,52 +22,73 @@ export default class GameController {
   }
 
   async startButtonHandler() {
-    const details = this.getNewGameDetails();
     try {
-      const result = await Backend.startNewGame(details);
+      const userInput = this.getPlayerInput();
+      const result = await Backend.startNewGame(userInput);
       this.gameId = result.game._id;
     } catch (error) {
       // render error messages
-      return console.error(error);
+      return console.error(`🚫🚫 ${error}`);
     }
-    this.game = GameFactory.getGame(this.userOptions);
+    this.game = GameFactory.getGame(this.playerOptions);
     this.displayGameView();
     this.game.start();
   }
 
-  getNewGameDetails() {
+  getPlayerInput() {
     this.playerName = this.getPlayerName();
-    this.userOptions = this.getUserOptions();
+    this.playerOptions = this.getPlayerOptions();
     return {
       name: this.playerName,
-      ...this.userOptions,
+      ...this.playerOptions,
     };
   }
 
-  getUserOptions() {
-    const userSelection = document.querySelectorAll(
+  getPlayerOptions() {
+    const playerSelection = document.querySelectorAll(
       '.join-options .btn-main__active'
     );
-    const [{ mode }, { difficulty }] = [...userSelection].map(el => el.dataset);
+    const [{ mode }, { difficulty }] = [...playerSelection].map(
+      el => el.dataset
+    );
     return { mode, difficulty };
   }
 
   getPlayerName() {
-    const name = document.querySelector('.join .name-input').value;
-    if (name.length < MIN_LENGTH_PLAYER_NAME)
+    const nameInput = document.querySelector('.join .name-input');
+    if (nameInput.value.length < MIN_LENGTH_PLAYER_NAME) {
+      this.flashErrorMessage(
+        nameInput.parentNode,
+        'Player name should have at least 5 characters'
+      );
       throw new Error('Player name minimum length is 5 characters');
-    return name;
+    }
+    return nameInput.value;
+  }
+
+  flashErrorMessage(targetEl, message) {
+    const errorNode = document.createElement('span');
+    const errorMessage = document.createTextNode(message);
+    errorNode.appendChild(errorMessage);
+    errorNode.setAttribute('style', 'color:red');
+
+    targetEl.insertAdjacentElement('afterend', errorNode);
+    const to = setTimeout(() => {
+      errorNode.remove();
+      clearTimeout(to);
+    }, 1500);
   }
 
   displayGameView() {
-    DOMHelper.displayElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.displayElement('#header__back');
+    DOMHelper.displayElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('game');
   }
 
-  connectCancelGameButton() {
+  connectBackButton() {
     this.connectModal(MODALS.CANCEL_GAME);
     document
-      .querySelector('#game-back')
+      .querySelector('#header__back')
       .addEventListener('click', this.backButtonHandler.bind(this));
   }
 
@@ -109,7 +130,8 @@ export default class GameController {
   }
 
   displayHomeScreen() {
-    DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.hideElement('#header__back');
+    DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('join');
   }
 
@@ -150,7 +172,7 @@ export default class GameController {
   }
 
   displayResultsView() {
-    DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('results');
   }
 
