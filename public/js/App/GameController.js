@@ -59,7 +59,7 @@ export default class GameController {
     if (nameInput.value.length < MIN_LENGTH_PLAYER_NAME) {
       this.flashErrorMessage(
         nameInput.parentNode,
-        'Player name should have at least 5 characters'
+        'Name length - minimum 5 characters'
       );
       throw new Error('Player name minimum length is 5 characters');
     }
@@ -70,9 +70,9 @@ export default class GameController {
     const errorNode = document.createElement('span');
     const errorMessage = document.createTextNode(message);
     errorNode.appendChild(errorMessage);
-    errorNode.setAttribute('style', 'color:red');
+    errorNode.setAttribute('style', 'color:red; position: absolute; top: 26%;');
 
-    targetEl.insertAdjacentElement('afterend', errorNode);
+    targetEl.insertAdjacentElement('beforebegin', errorNode);
     const to = setTimeout(() => {
       errorNode.remove();
       clearTimeout(to);
