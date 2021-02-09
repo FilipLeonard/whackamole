@@ -1,4 +1,4 @@
-import { GAME_OPTIONS } from './game-config';
+import { GAME_OPTIONS } from './game-config.js';
 import BattleGame from './BattleGame.js';
 import SurvivalGame from './SurvivalGame.js';
 
