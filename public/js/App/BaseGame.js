@@ -1,5 +1,5 @@
 import { GAME_OPTIONS, NUMBER_OF_CARDS } from './config.js';
-import DOMHelper from './utility/domhelper.js';
+import DOMHelper from './Utility/DOMHelper.js';
 
 export default class Game {
   constructor(userOptions) {

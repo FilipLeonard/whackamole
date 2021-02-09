@@ -1,4 +1,4 @@
-import Game from './game.js';
+import Game from './BaseGame.js';
 
 export default class SurvivalGame extends Game {
   constructor(userOptions) {
