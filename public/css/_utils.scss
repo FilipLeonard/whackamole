@@ -38,7 +38,11 @@ input {
 }
 
 .wiggle {
-  animation: wiggle 0.3s 1 linear;
+  animation: wiggle 0.3s linear;
+}
+
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 .btn-main {
