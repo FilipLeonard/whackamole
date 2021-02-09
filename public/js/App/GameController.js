@@ -11,7 +11,7 @@ const MODALS = {
 export default class GameController {
   constructor() {
     this.connectStartButton();
-    this.connectCancelGameButton();
+    this.connectBackButton();
     this.connectGameOverHandler();
   }
 
@@ -22,33 +22,35 @@ export default class GameController {
   }
 
   async startButtonHandler() {
-    const details = this.getNewGameDetails();
+    const userInput = this.getPlayerInput();
     try {
-      const result = await Backend.startNewGame(details);
+      const result = await Backend.startNewGame(userInput);
       this.gameId = result.game._id;
     } catch (error) {
       // render error messages
       return console.error(error);
     }
-    this.game = GameFactory.getGame(this.userOptions);
+    this.game = GameFactory.getGame(this.playerOptions);
     this.displayGameView();
     this.game.start();
   }
 
-  getNewGameDetails() {
+  getPlayerInput() {
     this.playerName = this.getPlayerName();
-    this.userOptions = this.getUserOptions();
+    this.playerOptions = this.getPlayerOptions();
     return {
       name: this.playerName,
-      ...this.userOptions,
+      ...this.playerOptions,
     };
   }
 
-  getUserOptions() {
-    const userSelection = document.querySelectorAll(
+  getPlayerOptions() {
+    const playerSelection = document.querySelectorAll(
       '.join-options .btn-main__active'
     );
-    const [{ mode }, { difficulty }] = [...userSelection].map(el => el.dataset);
+    const [{ mode }, { difficulty }] = [...playerSelection].map(
+      el => el.dataset
+    );
     return { mode, difficulty };
   }
 
@@ -60,14 +62,15 @@ export default class GameController {
   }
 
   displayGameView() {
-    DOMHelper.displayElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.displayElement('#header__back');
+    DOMHelper.displayElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('game');
   }
 
-  connectCancelGameButton() {
+  connectBackButton() {
     this.connectModal(MODALS.CANCEL_GAME);
     document
-      .querySelector('#game-back')
+      .querySelector('#header__back')
       .addEventListener('click', this.backButtonHandler.bind(this));
   }
 
@@ -109,7 +112,8 @@ export default class GameController {
   }
 
   displayHomeScreen() {
-    DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.hideElement('#header__back');
+    DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('join');
   }
 
@@ -150,7 +154,7 @@ export default class GameController {
   }
 
   displayResultsView() {
-    DOMHelper.hideElement(`#${this.userOptions.mode}-label`);
+    DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('results');
   }
 

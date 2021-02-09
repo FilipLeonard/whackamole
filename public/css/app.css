@@ -35,7 +35,7 @@ main {
 .header .header__content h1 {
   text-align: center;
 }
-.header .header__content #game-back {
+.header .header__content #header__back {
   align-self: flex-start;
 }
 
