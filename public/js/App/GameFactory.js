@@ -1,6 +1,6 @@
-import { GAME_OPTIONS } from './config.js';
-import BattleGame from './battlegame.js';
-import SurvivalGame from './survivalgame.js';
+import { GAME_OPTIONS } from './game-config.js';
+import BattleGame from './BattleGame.js';
+import SurvivalGame from './SurvivalGame.js';
 
 export default class GameFactory {
   static getGame(userOptions) {
