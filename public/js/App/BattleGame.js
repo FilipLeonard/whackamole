@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 // import Game from './Game.js';
 // import { GAME_OPTIONS } from './game-config.js';
+=======
+import Game from './BaseGame.js';
+import { GAME_OPTIONS } from './config.js';
+>>>>>>> master
 
 class BattleGame extends Game {
   // export default class BattleGame extends Game {

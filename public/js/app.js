@@ -1,4 +1,4 @@
-// import GameController from './App/GameController.js';
+import GameController from './App/GameController.js';
 
 document.querySelector('.join-options').addEventListener('click', e => {
   const userOption = e.target.closest('.join-option');

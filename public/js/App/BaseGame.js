@@ -1,5 +1,5 @@
-// import { GAME_OPTIONS, NUMBER_OF_CARDS } from './game-config.js';
-// import DOMHelper from './Utility/DOMHelper.js';
+import { GAME_OPTIONS, NUMBER_OF_CARDS } from './config.js';
+import DOMHelper from './Utility/DOMHelper.js';
 
 class Game {
   // export default class Game {

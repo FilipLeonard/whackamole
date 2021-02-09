@@ -1,4 +1,4 @@
-// import Game from './Game.js';
+import Game from './BaseGame.js';
 
 class SurvivalGame extends Game {
   // export default class SurvivalGame extends Game {
