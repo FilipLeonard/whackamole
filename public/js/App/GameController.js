@@ -57,10 +57,7 @@ export default class GameController {
   getPlayerName() {
     const nameInput = document.querySelector('.join .name-input');
     if (nameInput.value.length < MIN_LENGTH_PLAYER_NAME) {
-      this.flashErrorMessage(
-        nameInput.parentNode,
-        'Name length - minimum 5 characters'
-      );
+      this.flashErrorMessage(nameInput.parentNode, 'Minimum 5 characters');
       throw new Error('Player name minimum length is 5 characters');
     }
     return nameInput.value;
