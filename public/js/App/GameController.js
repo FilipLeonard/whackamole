@@ -8,8 +8,7 @@ const MODALS = {
   GAME_RESULTS: 'results',
 };
 
-class GameController {
-  // export default class GameController {
+export default class GameController {
   constructor() {
     this.connectStartButton();
     this.connectCancelGameButton();

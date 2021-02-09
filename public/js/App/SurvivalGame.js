@@ -1,7 +1,6 @@
 import Game from './BaseGame.js';
 
-class SurvivalGame extends Game {
-  // export default class SurvivalGame extends Game {
+export default class SurvivalGame extends Game {
   constructor(userOptions) {
     super(userOptions);
     Object.assign(this.stats, {

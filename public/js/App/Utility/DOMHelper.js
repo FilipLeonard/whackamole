@@ -1,5 +1,4 @@
-class DOMHelper {
-  // export default class DOMHelper {
+export default class DOMHelper {
   static displayElement(elementOrSelector) {
     let element;
     if (typeof elementOrSelector === 'string')
