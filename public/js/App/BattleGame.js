@@ -1,5 +1,5 @@
-import Game from './game.js';
-import { GAME_OPTIONS } from './config.js';
+import Game from './Game.js';
+import { GAME_OPTIONS } from './game-config.js';
 
 export default class BattleGame extends Game {
   constructor(userOptions) {
