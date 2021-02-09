@@ -1,6 +1,6 @@
-import GameFactory from './GameFactory.js';
-import DOMHelper from './Utility/DOMHelper.js';
-import Backend from './Utility/Backend.js';
+import GameFactory from './gamefactory.js';
+import DOMHelper from './utility/domhelper.js';
+import Backend from './utility/backend.js';
 
 const MIN_LENGTH_PLAYER_NAME = 5;
 const MODALS = {
