@@ -19,7 +19,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(helmet());
-// app.use(compression());
+app.use(compression());
 app.use(bodyParser.json());
 process.env.PWD = process.cwd();
 app.use(express.static(path.join(process.env.PWD, 'public')));
