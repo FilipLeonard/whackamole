@@ -23,4 +23,4 @@ const GAME_OPTIONS = {
   },
 };
 
-export { NUMBER_OF_CARDS, GAME_OPTIONS };
+// export { NUMBER_OF_CARDS, GAME_OPTIONS };

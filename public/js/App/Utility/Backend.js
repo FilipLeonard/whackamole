@@ -1,4 +1,5 @@
-export default class Backend {
+class Backend {
+  // export default class Backend {
   static async startNewGame(details) {
     const res = await fetch('/game-start', {
       method: 'PUT',

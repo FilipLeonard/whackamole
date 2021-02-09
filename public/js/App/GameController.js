@@ -1,6 +1,6 @@
-import GameFactory from './GameFactory.js';
-import DOMHelper from './Utility/DOMHelper.js';
-import Backend from './Utility/Backend.js';
+// import GameFactory from './GameFactory.js';
+// import DOMHelper from './Utility/DOMHelper.js';
+// import Backend from './Utility/Backend.js';
 
 const MIN_LENGTH_PLAYER_NAME = 5;
 const MODALS = {
@@ -8,7 +8,8 @@ const MODALS = {
   GAME_RESULTS: 'results',
 };
 
-export default class GameController {
+class GameController {
+  // export default class GameController {
   constructor() {
     this.connectStartButton();
     this.connectCancelGameButton();
