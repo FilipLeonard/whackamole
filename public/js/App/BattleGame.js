@@ -1,4 +1,4 @@
-import Game from './Game.js';
+import Game from './game.js';
 import { GAME_OPTIONS } from './config.js';
 
 export default class BattleGame extends Game {

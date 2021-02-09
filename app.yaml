@@ -1,2 +1,7 @@
 runtime: nodejs
 env: flex
+
+env_variables:
+  MONGO_USER: 'leooonard'
+  MONGO_PASSWORD: 'qwerty789'
+  MONGO_DEFAULT_DATABASE: 'whackamole'
