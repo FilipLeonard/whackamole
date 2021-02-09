@@ -22,13 +22,13 @@ export default class GameController {
   }
 
   async startButtonHandler() {
-    const userInput = this.getPlayerInput();
     try {
+      const userInput = this.getPlayerInput();
       const result = await Backend.startNewGame(userInput);
       this.gameId = result.game._id;
     } catch (error) {
       // render error messages
-      return console.error(error);
+      return console.error(`🚫🚫 ${error}`);
     }
     this.game = GameFactory.getGame(this.playerOptions);
     this.displayGameView();
@@ -55,10 +55,27 @@ export default class GameController {
   }
 
   getPlayerName() {
-    const name = document.querySelector('.join .name-input').value;
-    if (name.length < MIN_LENGTH_PLAYER_NAME)
+    const nameInput = document.querySelector('.join .name-input');
+    if (nameInput.value.length < MIN_LENGTH_PLAYER_NAME) {
+      this.flashErrorMessage(nameInput.parentNode, 1500);
       throw new Error('Player name minimum length is 5 characters');
-    return name;
+    }
+    return nameInput.value;
+  }
+
+  flashErrorMessage(targetEl, ms) {
+    const errorNode = document.createElement('span');
+    const errorMessage = document.createTextNode(
+      'Player name should have at least 5 characters'
+    );
+    errorNode.appendChild(errorMessage);
+    errorNode.setAttribute('style', 'color:red');
+
+    targetEl.insertAdjacentElement('afterend', errorNode);
+    const to = setTimeout(() => {
+      errorNode.remove();
+      clearTimeout(to);
+    }, ms);
   }
 
   displayGameView() {

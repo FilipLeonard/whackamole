@@ -42,7 +42,7 @@ input {
 }
 
 .btn-main {
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border: none;
   outline: none;
   border-radius: 99rem;
@@ -63,10 +63,6 @@ input {
       lighten(map-get($colors, secondary), 20%)
     );
   }
-}
-
-::placeholder {
-  color: #cbd0d5;
 }
 
 section {

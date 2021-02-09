@@ -261,7 +261,7 @@ input {
 }
 
 .btn-main {
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border: none;
   outline: none;
   border-radius: 99rem;
@@ -273,10 +273,6 @@ input {
 }
 .btn-main.btn-main__active {
   background: linear-gradient(21deg, #76cfff, #78f3d8);
-}
-
-::placeholder {
-  color: #cbd0d5;
 }
 
 section {
