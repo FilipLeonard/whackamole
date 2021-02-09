@@ -1,79 +1,80 @@
 @import '_variables.scss';
 @import '_animations.scss';
 
-.join .section__content {
-  height: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
+.join {
+  justify-content: center;
 
-.input-container {
-  position: relative;
-  font-size: 1.5rem;
-  background: linear-gradient(
-    21deg,
-    map-get($colors, main),
-    map-get($colors, secondary)
-  );
-  padding: 3px;
-  display: inline-block;
-  border-radius: 99rem;
-  transform: scale(0.01);
-  animation: scale-in 1s ease-out forwards;
-
-  .name-input {
-    position: relative;
-    display: inherit;
-    padding: 0 0.325em;
-    border: none;
-    border-radius: inherit;
-    outline: none;
-    margin: 0;
-    z-index: 1;
-  }
-
-  .name-input:focus + span {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  span {
-    transform: scale(0.993, 0.94);
-    opacity: 0;
-    transition: transform 0.5s, opacity 0.25s;
-    position: absolute;
-    z-index: 0;
-    margin: 4px;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    box-shadow: inset 0 0 0 3px #fff, 0 0 0 4px #fff,
-      3px -3px 30px map-get($colors, secondary),
-      -3px 3px 30px map-get($colors, main);
-  }
-}
-
-.join-options {
-  display: grid;
-  width: 100%;
-  row-gap: 10%;
-
-  .join-options__cat {
+  .section__content {
+    height: 60%;
     display: flex;
-    width: 100%;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 
-    .join-option {
-      width: 45%;
-      // flex-grow: 1;
+    .input-container {
+      position: relative;
+      font-size: 1.5rem;
+      background: linear-gradient(
+        21deg,
+        map-get($colors, main),
+        map-get($colors, secondary)
+      );
+      padding: 3px;
+      display: inline-block;
+      border-radius: 99rem;
+      transform: scale(0.01);
+      animation: scale-in 1s ease-out forwards;
+
+      .name-input {
+        position: relative;
+        display: inherit;
+        padding: 0 0.325em;
+        border: none;
+        border-radius: inherit;
+        outline: none;
+        margin: 0;
+        z-index: 1;
+      }
+
+      .name-input:focus + span {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      span {
+        transform: scale(0.993, 0.94);
+        opacity: 0;
+        transition: transform 0.5s, opacity 0.25s;
+        position: absolute;
+        z-index: 0;
+        margin: 4px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        box-shadow: inset 0 0 0 3px #fff, 0 0 0 4px #fff,
+          3px -3px 30px map-get($colors, secondary),
+          -3px 3px 30px map-get($colors, main);
+      }
+    }
+
+    .join-options {
+      display: grid;
+      width: 100%;
+      row-gap: 10%;
+
+      .join-options__cat {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .join-option {
+          width: 45%;
+          // flex-grow: 1;
+        }
+      }
     }
   }
 }
-
-@media (min-width: 40rem) {
-} ;

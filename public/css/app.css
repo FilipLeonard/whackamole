@@ -11,7 +11,7 @@ body {
   height: 100vh;
 }
 
-.main-header {
+.header {
   place-self: center;
   grid-area: header;
 }
@@ -20,10 +20,23 @@ main {
   grid-area: main;
 }
 
-.main-footer {
+.footer {
   padding: 0 1rem;
   grid-area: footer;
   place-self: center;
+}
+
+.header .header__content {
+  width: 21rem;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+.header .header__content h1 {
+  text-align: center;
+}
+.header .header__content #game-back {
+  align-self: flex-start;
 }
 
 @keyframes scale-in {
@@ -73,15 +86,17 @@ main {
     transform: translate3d(4px, 0, 0);
   }
 }
+.join {
+  justify-content: center;
+}
 .join .section__content {
-  height: 50%;
+  height: 60%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
-
-.input-container {
+.join .section__content .input-container {
   position: relative;
   font-size: 1.5rem;
   background: linear-gradient(21deg, #10abff, #1beabd);
@@ -91,7 +106,7 @@ main {
   transform: scale(0.01);
   animation: scale-in 1s ease-out forwards;
 }
-.input-container .name-input {
+.join .section__content .input-container .name-input {
   position: relative;
   display: inherit;
   padding: 0 0.325em;
@@ -101,11 +116,11 @@ main {
   margin: 0;
   z-index: 1;
 }
-.input-container .name-input:focus + span {
+.join .section__content .input-container .name-input:focus + span {
   opacity: 1;
   transform: scale(1);
 }
-.input-container span {
+.join .section__content .input-container span {
   transform: scale(0.993, 0.94);
   opacity: 0;
   transition: transform 0.5s, opacity 0.25s;
@@ -120,18 +135,17 @@ main {
   pointer-events: none;
   box-shadow: inset 0 0 0 3px #fff, 0 0 0 4px #fff, 3px -3px 30px #1beabd, -3px 3px 30px #10abff;
 }
-
-.join-options {
+.join .section__content .join-options {
   display: grid;
   width: 100%;
   row-gap: 10%;
 }
-.join-options .join-options__cat {
+.join .section__content .join-options .join-options__cat {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-.join-options .join-options__cat .join-option {
+.join .section__content .join-options .join-options__cat .join-option {
   width: 45%;
 }
 
@@ -158,26 +172,11 @@ main {
   /* border: 0.5rem solid white; */
 }
 
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal {
-  position: fixed;
-  z-index: 20;
-  top: 20%;
-  left: 30%;
-  width: 40%;
-  background: white;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+.footer .footer__content {
+  width: 21rem;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
 }
 
 @keyframes scale-in {
@@ -285,11 +284,31 @@ section {
   flex-flow: column;
   height: 100%;
   align-items: center;
-  justify-content: center;
+}
+section .section__content {
+  width: 21rem;
 }
 
-.section__content {
-  width: 21rem;
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: fixed;
+  z-index: 20;
+  top: 20%;
+  left: 30%;
+  width: 40%;
+  background: white;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 /*# sourceMappingURL=app.css.map */

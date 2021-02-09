@@ -12,7 +12,7 @@ body {
   height: 100vh;
 }
 
-.main-header {
+.header {
   place-self: center;
   grid-area: header;
 }
@@ -21,7 +21,7 @@ main {
   grid-area: main;
 }
 
-.main-footer {
+.footer {
   padding: 0 1rem;
   grid-area: footer;
   place-self: center;
