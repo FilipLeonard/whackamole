@@ -93,8 +93,6 @@ export default class GameController {
   }
 
   connectModal(modalType) {
-    console.log('connectModal', { modalType });
-
     document
       .querySelector(`.modal--${modalType} .modal__actions`)
       .addEventListener('click', this.getModalHandler(modalType));
@@ -191,15 +189,12 @@ export default class GameController {
   }
 
   connectGameOverHandler() {
-    console.log('connectGameOverHandler');
     this.connectModal(MODALS.GAME_RESULTS);
     const gameSection = document.querySelector('.game');
-    console.log({ gameSection });
     gameSection.addEventListener('gameover', this.gameOverHandler.bind(this));
   }
 
   async gameOverHandler(gameOverEvent) {
-    console.log('Handling gameover', { gameOverEvent });
     const { gameStats } = gameOverEvent.detail;
     const finishResult = await Backend.finishGame(this.gameId, gameStats);
     this.populateResultsModal({

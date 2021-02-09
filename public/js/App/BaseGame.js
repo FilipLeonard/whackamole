@@ -71,19 +71,23 @@ export default class Game {
   whackCard(card) {
     const whackedOnTime = card.classList.contains('active');
     if (whackedOnTime) {
-      this.registerValidWhack();
+      this.registerValidWhack(card);
     } else {
       this.registerFailedWhack();
     }
   }
 
-  registerValidWhack() {
+  registerValidWhack(card) {
     this.isCurrentPositionWhacked = true;
-    this.animateValidWhack();
+    this.animateValidWhack(card);
   }
 
-  animateValidWhack() {
-    console.log('✅✅Implement valid whack animation');
+  animateValidWhack(card) {
+    card.classList.add('wiggle');
+    const to = setTimeout(() => {
+      card.classList.remove('wiggle');
+      clearTimeout(to);
+    }, this.options.NEUTRAL_TIME);
   }
 
   registerFailedWhack() {
