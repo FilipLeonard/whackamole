@@ -71,32 +71,28 @@ export default class Game {
   whackCard(card) {
     const whackedOnTime = card.classList.contains('active');
     if (whackedOnTime) {
+      this.animateCard(card, 'wiggle');
       this.registerValidWhack(card);
     } else {
+      this.animateCard(card, 'shake');
       this.registerFailedWhack();
     }
   }
 
-  registerValidWhack(card) {
-    this.isCurrentPositionWhacked = true;
-    this.animateValidWhack(card);
+  animateCard(card, animation) {
+    console.log('animating', animation);
+    card.classList.add(animation);
+    setTimeout(() => {
+      card.classList.remove(animation);
+    }, this.options.NEUTRAL_TIME);
   }
 
-  animateValidWhack(card) {
-    card.classList.add('wiggle');
-    const to = setTimeout(() => {
-      card.classList.remove('wiggle');
-      clearTimeout(to);
-    }, this.options.NEUTRAL_TIME);
+  registerValidWhack() {
+    this.isCurrentPositionWhacked = true;
   }
 
   registerFailedWhack() {
     this.isCurrentPositionWhacked = false;
-    this.animateFailedWhack();
-  }
-
-  animateFailedWhack() {
-    console.log('⛔⛔Implement failed whack animation');
   }
 
   async changeActiveCard() {

@@ -149,6 +149,53 @@ main {
   width: 45%;
 }
 
+@keyframes scale-in {
+  0% {
+    transform: scale(0.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes wiggle {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  25% {
+    transform: rotateZ(10deg);
+  }
+  50% {
+    transform: rotateZ(0deg) scale(1.5);
+  }
+  75% {
+    transform: rotateZ(-10deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+@keyframes switch-color {
+  0% {
+    background: #10abff;
+  }
+  100% {
+    background: #1beabd;
+  }
+}
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
 .game__scoreboard {
   display: flex;
   justify-content: space-around;
@@ -168,7 +215,6 @@ main {
 .game__square {
   background: #1beabd;
   padding-top: 100%;
-  /* animation: wiggle 0.3s infinite linear; */
   /* border: 0.5rem solid white; */
 }
 
@@ -257,7 +303,11 @@ input {
 }
 
 .wiggle {
-  animation: wiggle 0.3s 1 linear;
+  animation: wiggle 0.3s linear;
+}
+
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 .btn-main {
