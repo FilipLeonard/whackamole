@@ -38,4 +38,22 @@ export default class DOMHelper {
     element.replaceWith(clonedElement);
     return clonedElement;
   }
+
+  static addClass(elementOrSelector, className) {
+    const element = DOMHelper._getElement(elementOrSelector);
+    element.classList.add(className);
+  }
+
+  static removeClass(elementOrSelector, className) {
+    const element = DOMHelper._getElement(elementOrSelector);
+    element.classList.remove(className);
+  }
+
+  static _getElement(elementOrSelector) {
+    let element;
+    if (typeof elementOrSelector === 'string')
+      element = document.querySelector(elementOrSelector);
+    if (typeof elementOrSelector === 'object') element = elementOrSelector;
+    return element;
+  }
 }

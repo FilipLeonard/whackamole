@@ -3,3 +3,12 @@ $colors: (
   main: #10abff,
   secondary: #1beabd,
 );
+$duration-modal: (
+  enter: 0.82s,
+  exit: 0.3s,
+);
+
+$timing-function: (
+  ease-out: cubic-bezier(0.215, 0.61, 0.355, 1),
+  ease-in: cubic-bezier(0.75, 0, 1, 1),
+);

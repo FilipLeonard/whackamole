@@ -33,8 +33,6 @@ input {
 
 .active {
   background-color: map-get($colors, main);
-  // animation: switch-color $card-active-time linear forwards,
-  // shake 0.82s $card-active-time cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 .wiggle {
@@ -82,17 +80,28 @@ section {
 
 .backdrop {
   position: fixed;
+  z-index: 10;
+  opacity: 0;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 10;
   background-color: rgba(0, 0, 0, 0.5);
+  will-change: opacity;
+  transition: opacity map-get($duration-modal, exit)
+    map-get($timing-function, ease-in);
+
+  &.visible {
+    opacity: 1;
+    transition: opacity map-get($duration-modal, enter)
+      map-get($timing-function, ease-out);
+  }
 }
 
 .modal {
   position: fixed;
   z-index: 20;
+  transform: translateX(-200%);
   top: 20%;
   left: 30%;
   width: 40%;
@@ -100,4 +109,13 @@ section {
   padding: 1rem;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  will-change: transform;
+  transition: transform map-get($duration-modal, exit)
+    map-get($timing-function, ease-in);
+
+  &.visible {
+    transform: translate(0%);
+    transition: transform map-get($duration-modal, enter)
+      map-get($timing-function, ease-out);
+  }
 }

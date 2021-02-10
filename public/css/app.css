@@ -337,17 +337,25 @@ section .section__content {
 
 .backdrop {
   position: fixed;
+  z-index: 10;
+  opacity: 0;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 10;
   background-color: rgba(0, 0, 0, 0.5);
+  will-change: opacity;
+  transition: opacity 0.3s cubic-bezier(0.75, 0, 1, 1);
+}
+.backdrop.visible {
+  opacity: 1;
+  transition: opacity 0.82s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .modal {
   position: fixed;
   z-index: 20;
+  transform: translateX(-200%);
   top: 20%;
   left: 30%;
   width: 40%;
@@ -355,6 +363,12 @@ section .section__content {
   padding: 1rem;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  will-change: transform;
+  transition: transform 0.3s cubic-bezier(0.75, 0, 1, 1);
+}
+.modal.visible {
+  transform: translate(0%);
+  transition: transform 0.82s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 /*# sourceMappingURL=app.css.map */

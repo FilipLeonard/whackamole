@@ -154,7 +154,11 @@ export default class GameController {
   }
 
   hideModal(modalType) {
-    ['.backdrop', `.modal--${modalType}`].forEach(DOMHelper.hideElement);
+    DOMHelper.removeClass('.backdrop', 'visible');
+    DOMHelper.removeClass(`.modal--${modalType}`, 'visible');
+    setTimeout(() => {
+      DOMHelper.addClass('.backdrop', 'hidden');
+    }, 300);
   }
 
   async modalResultsHandler(e) {
@@ -224,7 +228,12 @@ export default class GameController {
   }
 
   showModal(modalType) {
-    ['.backdrop', `.modal--${modalType}`].forEach(DOMHelper.displayElement);
+    DOMHelper.removeClass('.backdrop', 'hidden');
+    DOMHelper.removeClass(`.modal--${modalType}`, 'hidden');
+    setTimeout(() => {
+      DOMHelper.addClass('.backdrop', 'visible');
+      DOMHelper.addClass(`.modal--${modalType}`, 'visible');
+    }, 10);
   }
 
   connectGameOverHandler() {
