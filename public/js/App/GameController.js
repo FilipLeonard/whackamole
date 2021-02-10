@@ -23,11 +23,12 @@ export default class GameController {
 
   async startButtonHandler() {
     try {
-      const userInput = this.getPlayerInput();
-      const result = await Backend.startNewGame(userInput);
+      const playerInput = this.getPlayerInput();
+      const result = await Backend.startNewGame(playerInput);
       console.log(`Backend message: ${result.message}`);
       this.gameId = result.data.gameId;
     } catch (error) {
+      // flash message with both backend error and name validation error
       return console.error(`🚫🚫 ${error}`);
     }
     this.game = GameFactory.getGame(this.playerOptions);
@@ -44,23 +45,19 @@ export default class GameController {
     };
   }
 
-  getPlayerOptions() {
-    const playerSelection = document.querySelectorAll(
-      '.join-options .btn-main__active'
-    );
-    const [{ mode }, { difficulty }] = [...playerSelection].map(
-      el => el.dataset
-    );
-    return { mode, difficulty };
-  }
-
   getPlayerName() {
     const nameInput = document.querySelector('.join .name-input');
-    if (nameInput.value.length < MIN_LENGTH_PLAYER_NAME) {
-      this.flashErrorMessage(nameInput.parentNode, 'Minimum 5 characters');
-      throw new Error('Player name minimum length is 5 characters');
+    const name = nameInput.value.trim();
+    if (name.length < MIN_LENGTH_PLAYER_NAME) {
+      this.flashErrorMessage(
+        nameInput.parentNode,
+        `Minimum ${MIN_LENGTH_PLAYER_NAME} characters`
+      );
+      throw new Error(
+        `Player name min length is ${MIN_LENGTH_PLAYER_NAME} characters`
+      );
     }
-    return nameInput.value;
+    return name;
   }
 
   flashErrorMessage(targetEl, message) {
@@ -74,6 +71,16 @@ export default class GameController {
       errorNode.remove();
       clearTimeout(to);
     }, 1500);
+  }
+
+  getPlayerOptions() {
+    const playerSelection = document.querySelectorAll(
+      '.join-options .btn-main__active'
+    );
+    const [{ mode }, { difficulty }] = [...playerSelection].map(
+      el => el.dataset
+    );
+    return { mode, difficulty };
   }
 
   displayGameView() {
@@ -106,7 +113,7 @@ export default class GameController {
     }
   }
 
-  async modalCancelHandler(e) {
+  modalCancelHandler(e) {
     const action = e.target.closest('.modal__action');
     if (!action) return;
     const playerAction = {
@@ -115,18 +122,29 @@ export default class GameController {
     };
     if (playerAction.isConfirmCancel) {
       this.game.quit();
-      try {
-        const result = await Backend.cancelGame(this.gameId);
-        console.log(`Backend message: ${result.message}`);
-      } catch (error) {
-        console.log('Game cancel error', { error });
-      }
-      this.gameId = null; // TODO: reset everything relevant
+      this.persistGameCancellation();
       this.displayHomeScreen();
+      this.clearGameData();
     } else if (playerAction.isResumeGame) {
       this.game.resume();
     }
     this.hideModal(MODALS.CANCEL_GAME);
+  }
+
+  async persistGameCancellation() {
+    try {
+      const result = await Backend.cancelGame(this.gameId);
+      console.log(`Backend message: ${result.message}`);
+    } catch (error) {
+      console.log('❌❌Game cancel error', { error });
+    }
+  }
+
+  clearGameData() {
+    this.gameId = null;
+    this.playerName = null;
+    this.playerOptions = null;
+    this.leaderboard = null; // ??
   }
 
   displayHomeScreen() {
@@ -148,24 +166,36 @@ export default class GameController {
       isStartNewGame: action.classList.contains('modal__action--new-game'),
     };
     if (playerAction.isSubmitScore) {
-      try {
-        let res = await Backend.submitScore(this.gameId);
-        console.log(`Backend message: ${res.message}`);
-        res = await Backend.getLeaderboard();
-        console.log(`Backend message: ${res.message}`);
-        this.renderResultsView(res.data.leaderboard);
-        this.displayResultsView();
-      } catch (error) {
-        console.log('Game over backend error', { error });
-      }
+      await this.persistScore();
+      await this.retrieveLeaderboard();
+      this.updateResultsView();
+      this.displayResultsView();
     } else if (playerAction.isStartNewGame) {
       this.displayHomeScreen();
+      this.clearGameData();
     }
     this.hideModal(MODALS.GAME_RESULTS);
   }
 
-  renderResultsView(leaderboard) {
-    const markup = `${leaderboard
+  async persistScore() {
+    try {
+      let res = await Backend.submitScore(this.gameId);
+      console.log(`Backend message: ${res.message}`);
+    } catch (error) {
+      console.log('Persist score backend error', { error });
+    }
+  }
+
+  async retrieveLeaderboard() {
+    try {
+      this.leaderboard = await Backend.getLeaderboard();
+    } catch (error) {
+      console.log('Retrieve leaderboard backend error', { error });
+    }
+  }
+
+  updateResultsView() {
+    const markup = `${this.leaderboard
       .map(
         game =>
           `<li class="results__player">${game.playerName} ${game.points}</li>`
@@ -189,6 +219,7 @@ export default class GameController {
       this.showModal(MODALS.CANCEL_GAME);
     } else if (visibleSection === 'results') {
       this.displayHomeScreen();
+      this.clearGameData();
     }
   }
 
@@ -198,8 +229,9 @@ export default class GameController {
 
   connectGameOverHandler() {
     this.connectModal(MODALS.GAME_RESULTS);
-    const gameSection = document.querySelector('.game');
-    gameSection.addEventListener('gameover', this.gameOverHandler.bind(this));
+    document
+      .querySelector('.game')
+      .addEventListener('gameover', this.gameOverHandler.bind(this));
   }
 
   async gameOverHandler(gameOverEvent) {

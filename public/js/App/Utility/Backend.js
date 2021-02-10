@@ -1,11 +1,11 @@
 export default class Backend {
-  static async startNewGame(details) {
+  static async startNewGame(playerInput) {
     const res = await fetch('/game-start', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(details),
+      body: JSON.stringify(playerInput),
     });
     if (!res.ok) {
       throw new Error('Failed to start a new game..');
@@ -33,7 +33,6 @@ export default class Backend {
       },
       body: JSON.stringify(gameStats),
     });
-    console.log(res);
     if (!res.ok) {
       throw new Error('Failed to persist game finishing..');
     }
@@ -58,6 +57,7 @@ export default class Backend {
       throw new Error('Failed to retrieve leaderboard..');
     }
     const leaderboardResult = await res.json();
-    return leaderboardResult;
+    console.log(`Backend message: ${leaderboardResult.message}`);
+    return leaderboardResult.data.leaderboard;
   }
 }

@@ -80,7 +80,6 @@ export default class Game {
   }
 
   animateCard(card, animation) {
-    console.log('animating', animation);
     card.classList.add(animation);
     setTimeout(() => {
       card.classList.remove(animation);
