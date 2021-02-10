@@ -3,115 +3,131 @@ const Dynasty = require('../models/dynasty');
 const Game = require('../models/game');
 const Scoring = require('../models/scoring');
 
-exports.getIndex = async (req, res, next) => {
-  // const easyScoring = await Scoring.findOne({ difficulty: 'easy' });
-  // if (easyScoring) {
-  //   console.log('🎈🎈🎈easy scoring in place', { easyScoring });
-  // } else {
-  //   console.log(`🛑🛑🛑Scoring for difficulty ${'easy'} doesn't exist;`);
-  //   const scoring = new Scoring();
-  //   const newScoringResult = await scoring.save();
-  //   console.log('new scoring created', { newScoringResult });
-  // }
-  // await Scoring.calculatePoints('easy', 40);
-
-  res.render('index');
+exports.getIndex = (req, res, next) => {
+  res.status(200).render('index');
 };
 
-exports.putGameStart = async (req, res) => {
+exports.putGameStart = async (req, res, next) => {
   const { name, mode, difficulty } = req.body;
   let status = 200;
+  try {
+    let player = await Player.findOne({ name });
+    if (!player) {
+      const dynasty = await Dynasty.findOne({ house: 'Stark' });
+      if (!dynasty) throwError(404, `${'Stark'} dynasty not found!`);
+      player = new Player({
+        name,
+        dynasty: dynasty,
+      });
+      status = 201;
+    }
+    player.lastPlayed = new Date();
+    player.gamesStarted++;
+    const savedPlayer = await player.save();
+    if (!savedPlayer) throwError(404, 'Created/updated player not saved!');
 
-  let player = await Player.findOne({ name });
-
-  if (!player) {
-    const dynasty = await Dynasty.findOne({ house: 'Stark' });
-    player = new Player({
-      name,
-      lastPlayed: new Date(),
-      dynasty: dynasty,
+    const newGame = new Game({
+      mode,
+      difficulty,
+      player: savedPlayer,
     });
-    status = 201; // creating new player
+    const startedGame = await newGame.save();
+    if (!startedGame) throwError(404, 'Started game not saved!');
+
+    res.status(status).json({
+      message: 'New game started.',
+      data: { gameId: startedGame._id },
+    });
+  } catch (err) {
+    next(getCompleteError(err));
   }
-
-  player.gamesStarted++;
-  await player.save();
-
-  const newGame = new Game({
-    mode,
-    difficulty,
-    player,
-  });
-
-  await newGame.save();
-
-  res.status(status).json({ message: 'Starting new game..', game: newGame });
 };
 
 exports.patchGameCancel = async (req, res) => {
   const { gameId } = req.params;
-  const runningGame = await Game.findById(gameId);
-  if (!runningGame) {
-    // TODO error handling
-  }
-  runningGame.state = 'cancelled';
-  await runningGame.save();
+  try {
+    const runningGame = await Game.findById(gameId);
+    if (!runningGame) throwError(404, 'Running game not found!');
+    runningGame.state = 'cancelled';
+    const canceledGame = await runningGame.save();
+    if (!canceledGame) throwError(404, 'Canceled game not saved!');
 
-  res.status(200).json({
-    message: 'Game canceled',
-  });
+    res.status(200).json({
+      message: 'Game canceled.',
+    });
+  } catch (err) {
+    next(getCompleteError(err));
+  }
 };
 
 exports.patchGameFinish = async (req, res, next) => {
   const { gameId } = req.params;
-  const { whacks, points } = req.body;
-  const runningGame = await Game.findById(gameId);
-  if (!runningGame) {
-    runningGame;
-    // TODO error handling
+  const { whacks } = req.body;
+  try {
+    const runningGame = await Game.findById(gameId);
+    if (!runningGame) throwError(404, 'Running game not found!');
+    runningGame.state = 'finished';
+    runningGame.whacks = whacks;
+    runningGame.partialPoints = await Scoring.calculatePoints('easy', whacks);
+    const finishedGame = await runningGame.save();
+    if (!finishedGame) throwError(404, 'Finished game not saved!');
+    res.status(200).json({
+      message: 'Game finished.',
+      data: { partialPoints: finishedGame.partialPoints },
+    });
+  } catch (error) {
+    next(error);
   }
-  runningGame.state = 'finished';
-  runningGame.whacks = whacks;
-  const partialPoints = await Scoring.calculatePoints('easy', whacks);
-  runningGame.partialPoints = partialPoints;
-  const finishedGame = await runningGame.save();
-  res.status(200).json({
-    message: 'Game finished',
-    partialPoints,
-  });
 };
 
 exports.patchSubmitScore = async (req, res, next) => {
   const { gameId } = req.params;
-
-  const finishedGame = await Game.findById(gameId);
-  if (!finishedGame) {
-    // TODO error handling
+  try {
+    const finishedGame = await Game.findById(gameId);
+    if (!finishedGame) throwError(404, 'Finished game not found!');
+    finishedGame.state = 'submitted';
+    finishedGame.points = finishedGame.partialPoints;
+    const submittedGame = await finishedGame.save();
+    if (!submittedGame) throwError(404, 'Unable to save submitted game');
+    res.status(200).json({
+      message: 'Score submitted.',
+    });
+  } catch (err) {
+    next(getCompleteError(err));
   }
-  finishedGame.state = 'submitted';
-  finishedGame.points = finishedGame.partialPoints;
-  const submittedGame = await finishedGame.save();
-  res.status(200).json({
-    message: 'Score submitted successfully..',
-  });
 };
 
 exports.getLeaderboard = async (req, res, next) => {
-  const topGames = await Game.find()
-    .populate('player')
-    .sort('-partialPoints')
-    .limit(10); // TODO magic number
-  if (!topGames) {
-    // TODO error handling
+  try {
+    const topGames = await Game.find()
+      .populate('player')
+      .sort('-partialPoints')
+      .limit(10); // TODO magic number
+    if (!topGames) throwError(404, `Top ${10} results not found`);
+    const leaderboard = topGames.map(game => ({
+      playerName: game.player.name,
+      mode: game.mode,
+      difficulty: game.difficulty,
+      points: game.partialPoints,
+    }));
+    res.status(200).json({
+      message: 'Leaderboard retrieved.',
+      data: { leaderboard },
+    });
+  } catch (err) {
+    next(getCompleteError(err));
   }
-  const leaderboard = topGames.map(game => ({
-    playerName: game.player.name,
-    mode: game.mode,
-    difficulty: game.difficulty,
-    points: game.partialPoints,
-  }));
-  res.status(200).json({
-    message: 'Leaderboard retrieved successfully..',
-    leaderboard,
-  });
 };
+
+function throwError(status, message) {
+  const error = new Error(message);
+  error.status = status;
+  throw error;
+}
+
+function getCompleteError(error) {
+  if (!error.status) {
+    error.status = 500;
+  }
+  return error;
+}

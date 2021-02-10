@@ -72,11 +72,13 @@ const scoringSchema = new Schema({
 });
 
 scoringSchema.statics.calculatePoints = async function (difficulty, whacks) {
-  const { thresholds } = await this.findOne({ difficulty });
-  const th = thresholds.find(t => t.floor <= whacks && whacks <= t.ceil);
-  const score = whacks * this.getWhackValue(th.whackPowerIndex);
-  console.log({ score });
-  return score;
+  let finalPoints = 0;
+  if (whacks > 0) {
+    const { thresholds } = await this.findOne({ difficulty });
+    const th = thresholds.find(t => t.floor <= whacks && whacks <= t.ceil);
+    finalPoints = whacks * this.getWhackValue(th.whackPowerIndex);
+  }
+  return finalPoints;
 };
 
 scoringSchema.statics.getWhackValue = function (whackPowerIndex) {

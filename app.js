@@ -20,6 +20,11 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+app.use(({ method, url }, res, next) => {
+  console.log({ method, url });
+  next();
+});
+
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.json());
@@ -28,7 +33,10 @@ app.use(cors());
 
 app.use(gameRoutes);
 
+app.use('/500', errorController.get500);
 app.use(errorController.get404);
+
+app.use(errorController.masterErrorHandler);
 
 mongoose
   .connect(MONGODB_URI, {

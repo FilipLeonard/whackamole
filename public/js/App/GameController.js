@@ -25,9 +25,9 @@ export default class GameController {
     try {
       const userInput = this.getPlayerInput();
       const result = await Backend.startNewGame(userInput);
-      this.gameId = result.game._id;
+      console.log(`Backend message: ${result.message}`);
+      this.gameId = result.data.gameId;
     } catch (error) {
-      // render error messages
       return console.error(`🚫🚫 ${error}`);
     }
     this.game = GameFactory.getGame(this.playerOptions);
@@ -115,7 +115,12 @@ export default class GameController {
     };
     if (playerAction.isConfirmCancel) {
       this.game.quit();
-      await Backend.cancelGame(this.gameId);
+      try {
+        const result = await Backend.cancelGame(this.gameId);
+        console.log(`Backend message: ${result.message}`);
+      } catch (error) {
+        console.log('Game cancel error', { error });
+      }
       this.gameId = null; // TODO: reset everything relevant
       this.displayHomeScreen();
     } else if (playerAction.isResumeGame) {
@@ -143,10 +148,16 @@ export default class GameController {
       isStartNewGame: action.classList.contains('modal__action--new-game'),
     };
     if (playerAction.isSubmitScore) {
-      await Backend.submitScore(this.gameId);
-      const { leaderboard } = await Backend.getLeaderboard();
-      this.renderResultsView(leaderboard);
-      this.displayResultsView();
+      try {
+        let res = await Backend.submitScore(this.gameId);
+        console.log(`Backend message: ${res.message}`);
+        res = await Backend.getLeaderboard();
+        console.log(`Backend message: ${res.message}`);
+        this.renderResultsView(res.data.leaderboard);
+        this.displayResultsView();
+      } catch (error) {
+        console.log('Game over backend error', { error });
+      }
     } else if (playerAction.isStartNewGame) {
       this.displayHomeScreen();
     }
@@ -193,10 +204,17 @@ export default class GameController {
 
   async gameOverHandler(gameOverEvent) {
     const { gameStats } = gameOverEvent.detail;
-    const finishResult = await Backend.finishGame(this.gameId, gameStats);
+    let partialPoints = gameStats.whacks;
+    try {
+      const res = await Backend.finishGame(this.gameId, gameStats);
+      console.log(`Backend message: ${res.message}`);
+      partialPoints = res.data.partialPoints;
+    } catch (error) {
+      console.log('Game over backend error', { error });
+    }
     this.populateResultsModal({
       whacks: gameStats.whacks,
-      points: finishResult.partialPoints,
+      points: partialPoints,
     });
     this.showModal(MODALS.GAME_RESULTS);
   }
