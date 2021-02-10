@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const compression = require('compression');
 
+const errorController = require('./controllers/error');
+
 const gameRoutes = require('./routes/game');
 
 const MONGODB_URI =
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use(gameRoutes);
+
+app.use(errorController.get404);
 
 mongoose
   .connect(MONGODB_URI, {
