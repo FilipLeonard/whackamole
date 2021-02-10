@@ -218,6 +218,35 @@ main {
   /* border: 0.5rem solid white; */
 }
 
+.results .section__content .results__players {
+  list-style: none;
+  padding: 0;
+}
+.results .section__content .results__players .results__player {
+  padding: 0.5rem;
+  border: 1px solid #10abff;
+  display: grid;
+  grid-template: 1fr 1fr/1fr 2fr 1fr;
+  grid-template-areas: "rank player-name mode" "rank points difficulty";
+  justify-items: start;
+  align-items: center;
+}
+.results .section__content .results__players .results__player .results__player--rank {
+  grid-area: rank;
+}
+.results .section__content .results__players .results__player .results__player--name {
+  grid-area: player-name;
+}
+.results .section__content .results__players .results__player .results__player--points {
+  grid-area: points;
+}
+.results .section__content .results__players .results__player .results__player--mode {
+  grid-area: mode;
+}
+.results .section__content .results__players .results__player .results__player--difficulty {
+  grid-area: difficulty;
+}
+
 .footer .footer__content {
   width: 21rem;
   display: flex;

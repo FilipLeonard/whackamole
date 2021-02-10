@@ -13,6 +13,11 @@ export default class GameController {
     this.connectStartButton();
     this.connectBackButton();
     this.connectGameOverHandler();
+    // Backend.getLeaderboard().then(ldbrd => {
+    //   this.leaderboard = ldbrd;
+    //   this.updateResultsView();
+    //   this.displayResultsView();
+    // });
   }
 
   connectStartButton() {
@@ -200,10 +205,16 @@ export default class GameController {
 
   updateResultsView() {
     const markup = `${this.leaderboard
-      .map(
-        game =>
-          `<li class="results__player">${game.playerName} ${game.points}</li>`
-      )
+      .map((game, idx) => {
+        return `
+          <li class="results__player">
+            <div class="results__player--rank">${idx + 1}</div>
+            <div class="results__player--name">${game.playerName}</div>
+            <div class="results__player--points">${game.points}</div>
+            <div class="results__player--mode">${game.mode}</div>
+            <div class="results__player--difficulty">${game.difficulty}</div>
+          </li>`;
+      })
       .join(' ')}
     `;
     const resultsContainer = document.querySelector('.results__players');
