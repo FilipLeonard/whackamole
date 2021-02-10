@@ -1,13 +1,17 @@
 import GameController from './App/GameController.js';
-import DOMHelper from './App/Utility/DOMHelper.js';
 
 document.querySelector('.join-options').addEventListener('click', e => {
   const userOption = e.target.closest('.join-option');
   if (!userOption) return;
   const allRelatedOptions = userOption.parentNode.children;
   for (const availableOption of allRelatedOptions) {
-    const action = userOption === availableOption ? 'add' : 'remove';
-    availableOption.classList[action]('btn-main__active');
+    if (userOption === availableOption) {
+      availableOption.classList.add('btn-main__active');
+      availableOption.classList.remove('btn-main__inactive');
+    } else {
+      availableOption.classList.remove('btn-main__active');
+      availableOption.classList.add('btn-main__inactive');
+    }
   }
 });
 

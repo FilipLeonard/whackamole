@@ -36,16 +36,18 @@
                         </span>
                         <div class="join-options">
                             <div class="join-options__cat join-modes">
-                                <a data-mode="survival" class="btn-main join-option join-mode">Survival</a>
+                                <a data-mode="survival"
+                                    class="btn-main btn-main__inactive join-option join-mode">Survival</a>
                                 <a data-mode="battle" class="btn-main btn-main__active join-option join-mode">Battle</a>
                             </div>
                             <div class="join-options__cat join-diffs">
                                 <a data-difficulty="easy"
                                     class="btn-main btn-main__active join-option join-diff">Easy</a>
-                                <a data-difficulty="hard" class="btn-main join-option join-diff">Hard</a>
+                                <a data-difficulty="hard"
+                                    class="btn-main  btn-main__inactive join-option join-diff">Hard</a>
                             </div>
                         </div>
-                        <button type="button" class="btn-main btn-start-game">Start</button>
+                        <button id="btn-start-game" type="button" class="btn-main btn-start-game">Start</button>
                     </div>
                 </section>
                 <section class="game hidden">

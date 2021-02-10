@@ -320,8 +320,15 @@ input {
   text-align: center;
   color: white;
   cursor: pointer;
+  transform: scale(0.9);
+  will-change: transform, box-shadow;
+  transition: transform 0.3s cubic-bezier(0.75, 0, 1, 1), box-shadow 0.3s cubic-bezier(0.75, 0, 1, 1);
 }
 .btn-main.btn-main__active {
+  transform: scale(1);
+  box-shadow: 1px -1px 7px #1beabd, -1px 1px 7px #10abff;
+}
+.btn-main.btn-main__inactive {
   background: linear-gradient(21deg, #76cfff, #78f3d8);
 }
 

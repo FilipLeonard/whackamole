@@ -57,8 +57,18 @@ input {
   text-align: center;
   color: white;
   cursor: pointer;
+  transform: scale(0.9);
+  will-change: transform, box-shadow;
+  transition: transform 0.3s map-get($timing-function, ease-in),
+    box-shadow 0.3s map-get($timing-function, ease-in);
 
   &.btn-main__active {
+    transform: scale(1);
+    box-shadow: 1px -1px 7px map-get($colors, secondary),
+      -1px 1px 7px map-get($colors, main);
+  }
+
+  &.btn-main__inactive {
     background: linear-gradient(
       21deg,
       lighten(map-get($colors, main), 20%),
