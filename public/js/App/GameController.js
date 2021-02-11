@@ -13,11 +13,11 @@ export default class GameController {
     this.connectStartButton();
     this.connectBackButton();
     this.connectGameOverHandler();
-    // Backend.getLeaderboard().then(ldbrd => {
-    //   this.leaderboard = ldbrd;
-    //   this.updateResultsView();
-    //   this.displayResultsView();
-    // });
+    Backend.getLeaderboard().then(ldbrd => {
+      this.leaderboard = ldbrd;
+      this.updateResultsView();
+      this.displayResultsView();
+    });
   }
 
   connectStartButton() {
@@ -208,11 +208,17 @@ export default class GameController {
       .map((game, idx) => {
         return `
           <li class="results__player">
-            <div class="results__player--rank">${idx + 1}</div>
-            <div class="results__player--name">${game.playerName}</div>
-            <div class="results__player--points">${game.points}</div>
-            <div class="results__player--mode">${game.mode}</div>
-            <div class="results__player--difficulty">${game.difficulty}</div>
+            <div class="results__player--rank"><span>${idx + 1}</span></div>
+            <div class="results__player--name gradient-text">${
+              game.playerName
+            }</div>
+            <div class="results__player--points gradient-text">${
+              game.points
+            }</div>
+            <div class="results__player--mode label">${game.mode}</div>
+            <div class="results__player--difficulty label">${
+              game.difficulty
+            }</div>
           </li>`;
       })
       .join(' ')}
@@ -223,7 +229,7 @@ export default class GameController {
   }
 
   displayResultsView() {
-    DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
+    // DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('results');
   }
 
