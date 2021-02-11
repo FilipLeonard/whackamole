@@ -148,6 +148,16 @@ main {
 .join .section__content .join-options .join-options__cat .join-option {
   width: 45%;
 }
+.join .section__content .intent-buttons {
+  display: grid;
+  gap: 20%;
+}
+.join .section__content .intent-buttons #btn-start-game {
+  transform: scale(1.3);
+}
+.join .section__content .intent-buttons #btn-leaderboard {
+  transform: scale(0.8);
+}
 
 @keyframes scale-in {
   0% {

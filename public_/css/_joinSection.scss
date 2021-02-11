@@ -76,5 +76,17 @@
         }
       }
     }
+
+    .intent-buttons {
+      display: grid;
+      gap: 20%;
+      #btn-start-game {
+        transform: scale(1.3);
+      }
+
+      #btn-leaderboard {
+        transform: scale(0.8);
+      }
+    }
   }
 }

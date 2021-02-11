@@ -47,13 +47,17 @@
                                     class="btn-main  btn-main__inactive join-option join-diff">Hard</a>
                             </div>
                         </div>
-                        <button id="btn-start-game" type="button" class="btn-main btn-start-game">Start</button>
+                        <div class="intent-buttons">
+                            <button id="btn-start-game" type="button" class="btn-main btn-start-game">Start</button>
+                            <button id="btn-leaderboard" type="button"
+                                class="btn-main btn-leaderboard">Leaderboard</button>
+                        </div>
                     </div>
                 </section>
                 <section class="game hidden">
                     <div class="section__content">
                         <div class="game__scoreboard">
-                            <h4>Current score: <span id="current-score">0</span></h4>
+                            <h4>Whacks: <span id="current-score">0</span></h4>
                             <h4 id="battle-label" class="hidden">Time: <span id="remaining-time">60</span></h4>
                             <h4 id="survival-label" class="hidden">Lives: <span id="remaining-lives">3</span></h4>
                         </div>

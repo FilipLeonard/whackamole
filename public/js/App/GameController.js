@@ -10,19 +10,20 @@ const MODALS = {
 
 export default class GameController {
   constructor() {
-    this.connectStartButton();
-    this.connectBackButton();
+    this.connectButtons();
+    this.connectModals();
     this.connectGameOverHandler();
-    Backend.getLeaderboard().then(ldbrd => {
-      this.leaderboard = ldbrd;
-      this.updateResultsView();
-      this.displayResultsView();
-    });
+  }
+
+  connectButtons() {
+    this.connectStartButton();
+    this.connectLeaderboardButton();
+    this.connectBackButton();
   }
 
   connectStartButton() {
     document
-      .querySelector('.btn-start-game')
+      .getElementById('btn-start-game')
       .addEventListener('click', this.startButtonHandler.bind(this));
   }
 
@@ -90,15 +91,96 @@ export default class GameController {
 
   displayGameView() {
     DOMHelper.displayElement('#header__back');
+    DOMHelper.hideElement(`#battle-label`);
+    DOMHelper.hideElement(`#survival-label`);
     DOMHelper.displayElement(`#${this.playerOptions.mode}-label`);
     DOMHelper.displaySection('game');
   }
 
+  connectLeaderboardButton() {
+    document
+      .getElementById('btn-leaderboard')
+      .addEventListener('click', this.leaderboardButtonHandler.bind(this));
+  }
+
+  async leaderboardButtonHandler() {
+    await this.retrieveLeaderboard();
+    this.updateLeaderboardView();
+    this.displayLeaderboardView();
+  }
+
+  async retrieveLeaderboard() {
+    try {
+      this.leaderboard = await Backend.getLeaderboard();
+    } catch (error) {
+      console.log('Retrieve leaderboard backend error', { error });
+    }
+  }
+
+  updateLeaderboardView() {
+    const markup = `${this.leaderboard
+      .map((game, idx) => {
+        return `
+        <li class="results__player">
+        <div class="results__player--rank"><span>${idx + 1}</span></div>
+        <div class="results__player--name gradient-text">${
+          game.playerName
+        }</div>
+        <div class="results__player--points gradient-text">${game.points}</div>
+        <div class="results__player--mode label">${game.mode}</div>
+        <div class="results__player--difficulty label">${game.difficulty}</div>
+            </li>`;
+      })
+      .join(' ')}
+          `;
+    const resultsContainer = document.querySelector('.results__players');
+    resultsContainer.innerHTML = '';
+    resultsContainer.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  displayLeaderboardView() {
+    DOMHelper.displayElement('#header__back');
+    DOMHelper.displaySection('results');
+  }
+
   connectBackButton() {
-    this.connectModal(MODALS.CANCEL_GAME);
     document
       .querySelector('#header__back')
       .addEventListener('click', this.backButtonHandler.bind(this));
+  }
+
+  backButtonHandler() {
+    const visibleSection = DOMHelper.getVisibleSection();
+    if (visibleSection === 'game') {
+      this.game.pause();
+      this.showModal(MODALS.CANCEL_GAME);
+    } else if (visibleSection === 'results') {
+      this.displayHomeScreen();
+      this.clearGameData();
+    }
+  }
+
+  displayHomeScreen() {
+    DOMHelper.hideElement('#header__back');
+    DOMHelper.displaySection('join');
+  }
+
+  clearGameData() {
+    this.gameId = null;
+    this.playerName = null;
+    this.playerOptions = null;
+    this.leaderboard = null; // ??
+  }
+
+  connectModals() {
+    this.connectModal(MODALS.CANCEL_GAME);
+    this.connectModal(MODALS.GAME_RESULTS);
+  }
+
+  connectGameOverHandler() {
+    document
+      .querySelector('.game')
+      .addEventListener('gameover', this.gameOverHandler.bind(this));
   }
 
   connectModal(modalType) {
@@ -145,19 +227,6 @@ export default class GameController {
     }
   }
 
-  clearGameData() {
-    this.gameId = null;
-    this.playerName = null;
-    this.playerOptions = null;
-    this.leaderboard = null; // ??
-  }
-
-  displayHomeScreen() {
-    DOMHelper.hideElement('#header__back');
-    DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
-    DOMHelper.displaySection('join');
-  }
-
   hideModal(modalType) {
     DOMHelper.removeClass('.backdrop', 'visible');
     DOMHelper.removeClass(`.modal--${modalType}`, 'visible');
@@ -177,8 +246,8 @@ export default class GameController {
     if (playerAction.isSubmitScore) {
       await this.persistScore();
       await this.retrieveLeaderboard();
-      this.updateResultsView();
-      this.displayResultsView();
+      this.updateLeaderboardView();
+      this.displayLeaderboardView();
     } else if (playerAction.isStartNewGame) {
       this.displayHomeScreen();
       this.clearGameData();
@@ -195,55 +264,6 @@ export default class GameController {
     }
   }
 
-  async retrieveLeaderboard() {
-    try {
-      this.leaderboard = await Backend.getLeaderboard();
-    } catch (error) {
-      console.log('Retrieve leaderboard backend error', { error });
-    }
-  }
-
-  updateResultsView() {
-    const markup = `${this.leaderboard
-      .map((game, idx) => {
-        return `
-          <li class="results__player">
-            <div class="results__player--rank"><span>${idx + 1}</span></div>
-            <div class="results__player--name gradient-text">${
-              game.playerName
-            }</div>
-            <div class="results__player--points gradient-text">${
-              game.points
-            }</div>
-            <div class="results__player--mode label">${game.mode}</div>
-            <div class="results__player--difficulty label">${
-              game.difficulty
-            }</div>
-          </li>`;
-      })
-      .join(' ')}
-    `;
-    const resultsContainer = document.querySelector('.results__players');
-    resultsContainer.innerHTML = '';
-    resultsContainer.insertAdjacentHTML('afterbegin', markup);
-  }
-
-  displayResultsView() {
-    // DOMHelper.hideElement(`#${this.playerOptions.mode}-label`);
-    DOMHelper.displaySection('results');
-  }
-
-  backButtonHandler() {
-    const visibleSection = DOMHelper.getVisibleSection();
-    if (visibleSection === 'game') {
-      this.game.pause();
-      this.showModal(MODALS.CANCEL_GAME);
-    } else if (visibleSection === 'results') {
-      this.displayHomeScreen();
-      this.clearGameData();
-    }
-  }
-
   showModal(modalType) {
     DOMHelper.removeClass('.backdrop', 'hidden');
     DOMHelper.removeClass(`.modal--${modalType}`, 'hidden');
@@ -251,13 +271,6 @@ export default class GameController {
       DOMHelper.addClass('.backdrop', 'visible');
       DOMHelper.addClass(`.modal--${modalType}`, 'visible');
     }, 10);
-  }
-
-  connectGameOverHandler() {
-    this.connectModal(MODALS.GAME_RESULTS);
-    document
-      .querySelector('.game')
-      .addEventListener('gameover', this.gameOverHandler.bind(this));
   }
 
   async gameOverHandler(gameOverEvent) {
