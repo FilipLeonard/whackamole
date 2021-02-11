@@ -19,12 +19,10 @@ export default class Game {
         points: 0,
         add(addition) {
           this.whacks += addition;
-          this.points += this.getDynamicPoints();
           this.el.textContent = this.whacks;
         },
-        getDynamicPoints() {
-          const random = Math.random() * 35000;
-          return random - (random % 1000);
+        reset() {
+          this.add(-this.whacks);
         },
       },
     };
@@ -154,8 +152,7 @@ export default class Game {
   }
 
   resetStats() {
-    const { score } = this.stats;
-    this.stats.score.add(-score.whacks);
+    this.stats.score.reset();
   }
 
   resetGrid() {

@@ -90,7 +90,7 @@ export default class GameController {
   }
 
   displayGameView() {
-    DOMHelper.displayElement('#header__back');
+    // DOMHelper.displayElement('#header__back');
     DOMHelper.hideElement(`#battle-label`);
     DOMHelper.hideElement(`#survival-label`);
     DOMHelper.displayElement(`#${this.playerOptions.mode}-label`);
@@ -139,7 +139,7 @@ export default class GameController {
   }
 
   displayLeaderboardView() {
-    DOMHelper.displayElement('#header__back');
+    // DOMHelper.displayElement('#header__back');
     DOMHelper.displaySection('results');
   }
 
@@ -161,7 +161,7 @@ export default class GameController {
   }
 
   displayHomeScreen() {
-    DOMHelper.hideElement('#header__back');
+    // DOMHelper.hideElement('#header__back');
     DOMHelper.displaySection('join');
   }
 

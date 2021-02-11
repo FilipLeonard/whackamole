@@ -16,6 +16,13 @@ export default class DOMHelper {
   }
 
   static displaySection(sectionClass) {
+    if (sectionClass === 'join') {
+      DOMHelper.hideElement('.header-main');
+      DOMHelper.displayElement('.header');
+    } else {
+      DOMHelper.hideElement('.header');
+      DOMHelper.displayElement('.header-main');
+    }
     const sections = document.querySelectorAll('section');
     for (const section of sections) {
       if (section.classList.contains(sectionClass)) {

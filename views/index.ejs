@@ -27,7 +27,12 @@
         </div>
         <%- include('includes/header.ejs') %>
             <main>
-                <section class="join">
+                <header class="header-main hidden">
+                    <div class="header-main__content">
+                        <button id="header__back" class="btn-main">Back</button>
+                    </div>
+                </header>
+                <section class="join hidden">
                     <div class="section__content">
                         <span class="input-container">
                             <input class="name-input" type="text" name="name" placeholder="Your warrior name"
@@ -54,12 +59,29 @@
                         </div>
                     </div>
                 </section>
-                <section class="game hidden">
+                <section class="game ">
                     <div class="section__content">
                         <div class="game__scoreboard">
-                            <h4>Whacks: <span id="current-score">0</span></h4>
-                            <h4 id="battle-label" class="hidden">Time: <span id="remaining-time">60</span></h4>
-                            <h4 id="survival-label" class="hidden">Lives: <span id="remaining-lives">3</span></h4>
+                            <div class="scoreboard__group">
+                                <div>Whacks: <span id="current-score">0</span></div>
+                            </div>
+                            <div class="scoreboard__group">
+                                <div>Multiplicator: <span id="current-score">1</span></div>
+                            </div>
+                            <div class="scoreboard__group">
+                                <div id="battle-label" class="nothidden">Time: <span id="remaining-time">60</span></div>
+                                <div id="survival-label" class="nonhidden">Lives: <span id="remaining-lives">3</span>
+                                </div>
+                            </div>
+                            <div class="scoreboard__group">
+
+                            </div>
+                            <div class="scoreboard__group">
+
+                            </div>
+                            <div class="scoreboard__group">
+
+                            </div>
                         </div>
                         <div class="game__grid gradient-text">
                             <div id="sq1" class="game__square card"></div>
