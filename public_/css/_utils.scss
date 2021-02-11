@@ -1,6 +1,14 @@
 @import '_variables.scss';
 @import '_animations.scss';
 
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 input {
   font-family: inherit;
   line-height: inherit;

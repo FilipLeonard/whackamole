@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node app.js",
     "start-server": "node app.js",
-    "start-dev": "nodemon app.js"
+    "start-dev": "nodemon app.js",
+    "sass-watch": "sass --watch .\\public_\\css\\app.scss:public\\css\\app.css --style=compressed"
   },
   "author": "",
   "license": "ISC",
