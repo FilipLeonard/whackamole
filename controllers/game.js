@@ -10,6 +10,9 @@ exports.getIndex = (req, res, next) => {
 exports.putGameStart = async (req, res, next) => {
   const { name, mode, difficulty } = req.body;
   let status = 200;
+
+  // await new Dynasty().save();
+  // await new Scoring().save();
   try {
     let player = await Player.findOne({ name });
     if (!player) {
