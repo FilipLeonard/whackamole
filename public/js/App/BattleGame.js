@@ -62,7 +62,6 @@ export default class BattleGame extends Game {
   }
 
   processFailedWhack() {
-    console.log('You failed to whack');
-    // subtract 5 seconds from remainingTime
+    Game.prototype.processFailedWhack.call(this);
   }
 }

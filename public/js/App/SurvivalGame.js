@@ -24,6 +24,7 @@ export default class SurvivalGame extends Game {
   }
 
   processFailedWhack() {
+    Game.prototype.processFailedWhack.call(this);
     this.stats.lives.looseOne();
     if (this.stats.lives.remainingLives === 0) {
       clearInterval(this.gameLoop);

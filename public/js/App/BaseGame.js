@@ -14,19 +14,52 @@ export default class Game {
     };
     this.stats = {
       score: {
-        el: document.querySelector('#current-score'),
+        whacksEl: document.getElementById('current-whacks'),
+        multiplierEl: document.getElementById('current-multiplier'),
+        consecutiveEl: document.getElementById('consecutive-tiles'),
         whacks: 0,
+        multiplier: 1,
+        multipliers: [2, 5],
+        consecutives: 0,
         points: 0,
-        add(addition) {
-          this.whacks += addition;
-          this.el.textContent = this.whacks;
+        increase() {
+          this.increaseWhacks();
+          this.increaseConsecutives();
         },
-        reset() {
-          this.add(-this.whacks);
+        increaseWhacks() {
+          this.whacks += this.multiplier;
+          this.whacksEl.textContent = this.whacks;
+        },
+        increaseConsecutives() {
+          this.consecutives++;
+          DOMHelper.addClass(`#tile${this.consecutives}`, 'active');
+          if (this.consecutives === 5) this.updateMultiplier();
+        },
+        updateMultiplier() {
+          this.multipliers.push(this.multiplier);
+          this.multiplier = this.multipliers.shift();
+          this.multiplierEl.textContent = this.multiplier;
+          this.resetConsecutiveWhacks(500);
+        },
+        resetConsecutiveWhacks(afterMs = 0) {
+          this.consecutives = 0;
+          setTimeout(() => {
+            Array.from(this.consecutiveEl.children).forEach(tile =>
+              DOMHelper.removeClass(tile, 'active')
+            );
+          }, afterMs);
+        },
+        resetAll() {
+          this.whacks = 0;
+          this.multiplier = 1;
+          this.multipliers = [2, 5];
+          this.whacksEl.textContent = this.whacks;
+          this.multiplierEl.textContent = this.multiplier;
+          this.resetConsecutiveWhacks();
         },
       },
     };
-    this.gameGrid = document.querySelector('.game__grid');
+    this.gameBoard = document.querySelector('.game__grid');
   }
 
   start() {
@@ -36,7 +69,7 @@ export default class Game {
 
   setupGame() {
     this.setupInitialPosition();
-    this.gameGrid.addEventListener('click', this.whackHandler.bind(this));
+    this.gameBoard.addEventListener('click', this.whackHandler.bind(this));
   }
 
   whackHandler(e) {
@@ -63,7 +96,7 @@ export default class Game {
   }
 
   activateCard(cardPosition) {
-    this.gameGrid.querySelector(`#sq${cardPosition}`).classList.add('active');
+    this.gameBoard.querySelector(`#sq${cardPosition}`).classList.add('active');
   }
 
   whackCard(card) {
@@ -109,11 +142,15 @@ export default class Game {
   }
 
   processValidWhack() {
-    this.stats.score.add(1);
+    this.stats.score.increase();
+  }
+
+  processFailedWhack() {
+    this.stats.score.resetConsecutiveWhacks();
   }
 
   deactivateCard(cardPosition) {
-    this.gameGrid
+    this.gameBoard
       .querySelector(`#sq${cardPosition}`)
       .classList.remove('active');
   }
@@ -147,18 +184,18 @@ export default class Game {
     this.resetGrid();
     /* can't remove it like this because the actual listener is not whackHandler, 
     it's a binded instance of it - whackHandler.bind(this) */
-    // this.gameGrid.removeEventListener('click', this.whackHandler);
-    DOMHelper.clearEventListeners(this.gameGrid);
+    // this.gameBoard.removeEventListener('click', this.whackHandler);
+    DOMHelper.clearEventListeners(this.gameBoard);
   }
 
   resetStats() {
-    this.stats.score.reset();
+    this.stats.score.resetAll();
   }
 
   resetGrid() {
-    let activeCards = this.gameGrid.querySelectorAll('.game__square.active');
+    let activeCards = this.gameBoard.querySelectorAll('.game__square.active');
     activeCards.forEach(card => card.classList.remove('active'));
-    activeCards = this.gameGrid.querySelectorAll('.game__square.active');
+    activeCards = this.gameBoard.querySelectorAll('.game__square.active');
   }
 
   dispatchGameOver() {
@@ -167,6 +204,6 @@ export default class Game {
     const gameOverEvent = new CustomEvent('gameover', {
       detail: { gameStats: { whacks, points } },
     });
-    this.gameGrid.closest('.game').dispatchEvent(gameOverEvent);
+    this.gameBoard.closest('.game').dispatchEvent(gameOverEvent);
   }
 }

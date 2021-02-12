@@ -91,9 +91,9 @@ export default class GameController {
 
   displayGameView() {
     // DOMHelper.displayElement('#header__back');
-    DOMHelper.hideElement(`#battle-label`);
-    DOMHelper.hideElement(`#survival-label`);
-    DOMHelper.displayElement(`#${this.playerOptions.mode}-label`);
+    DOMHelper.hideElement(`#resource-battle`);
+    DOMHelper.hideElement(`#resource-survival`);
+    DOMHelper.displayElement(`#resource-${this.playerOptions.mode}`);
     DOMHelper.displaySection('game');
   }
 

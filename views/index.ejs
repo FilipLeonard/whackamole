@@ -64,29 +64,29 @@
                         <div class="game__scoreboard card">
                             <div class="scoreboard__group card whacks gradient-text">
                                 <div class="label">WHACKS</div>
-                                <span class="value" id="current-score">0</span>
+                                <span id="current-whacks" class="value">0</span>
                             </div>
                             <div class="scoreboard__group card multiplier gradient-text">
                                 <div class="label">MULTIPLIER</div>
-                                <span class="value" id="current-score">1</span>
+                                <span id="current-multiplier" class="value">1</span>
                             </div>
                             <div class="scoreboard__group card resources gradient-text">
-                                <div id="battle-label" class="hidden">
+                                <div id="resource-battle" class="hidden">
                                     <div class="label">TIME</div>
                                     <span class="value" id="remaining-time">60</span>
                                 </div>
-                                <div id="survival-label" class="not">
+                                <div id="resource-survival" class="not">
                                     <div class="label">LIVES
                                     </div>
                                     <span class="value" id="remaining-lives">3</span>
                                 </div>
                             </div>
-                            <div class="scoreboard__group tiles">
-                                <div class="tile card-tiny"></div>
-                                <div class="tile card-tiny"></div>
-                                <div class="tile card-tiny"></div>
-                                <div class="tile card-tiny"></div>
-                                <div class="tile card-tiny"></div>
+                            <div id="consecutive-tiles" class="scoreboard__group tiles">
+                                <div id="tile1" class="tile card-tiny"></div>
+                                <div id="tile2" class="tile card-tiny"></div>
+                                <div id="tile3" class="tile card-tiny"></div>
+                                <div id="tile4" class="tile card-tiny"></div>
+                                <div id="tile5" class="tile card-tiny"></div>
                             </div>
                         </div>
                         <div class="game__grid gradient-text">
@@ -108,5 +108,6 @@
                         </ul>
                     </div>
                 </section>
+
             </main>
             <%- include('includes/end.ejs') %>
