@@ -1,5 +1,6 @@
 import { GAME_OPTIONS, NUMBER_OF_CARDS } from './game-config.js';
 import DOMHelper from './Utility/DOMHelper.js';
+import { waitMs } from './Utility/Utils.js';
 
 export default class Game {
   constructor(userOptions) {
@@ -19,7 +20,7 @@ export default class Game {
         consecutiveEl: document.getElementById('consecutive-tiles'),
         whacks: 0,
         multiplier: 1,
-        multipliers: [2, 5],
+        multipliers: [2, 3, 4, 5, 6, 7, 8, 9, 10],
         consecutives: 0,
         points: 0,
         increase() {
@@ -52,7 +53,7 @@ export default class Game {
         resetAll() {
           this.whacks = 0;
           this.multiplier = 1;
-          this.multipliers = [2, 5];
+          this.multipliers = [2, 3, 4, 5, 6, 7, 8, 9, 10];
           this.whacksEl.textContent = this.whacks;
           this.multiplierEl.textContent = this.multiplier;
           this.resetConsecutiveWhacks();
@@ -128,7 +129,7 @@ export default class Game {
   async changeActiveCard() {
     if (this.currentPosition) this.deactivateCard(this.currentPosition);
     const nextPosition = this.getNextPosition();
-    await this.waitMs(this.options.NEUTRAL_TIME);
+    await waitMs(this.options.NEUTRAL_TIME);
     this.activateCard(nextPosition);
     this.currentPosition = nextPosition;
   }
@@ -153,12 +154,6 @@ export default class Game {
     this.gameBoard
       .querySelector(`#sq${cardPosition}`)
       .classList.remove('active');
-  }
-
-  waitMs(miliseconds) {
-    return new Promise(resolve => {
-      setTimeout(resolve, miliseconds);
-    });
   }
 
   executeGameCycle() {
