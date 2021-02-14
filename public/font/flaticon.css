@@ -1,6 +1,6 @@
 	/*
   	Flaticon icon font: Flaticon
-  	Creation date: 14/02/2021 13:12
+  	Creation date: 14/02/2021 14:48
   	*/
 
 @font-face {
@@ -30,10 +30,10 @@ font-style: normal;
 margin-left: 20px;
 }
 
-.flaticon-chronometer:before { content: "\f100"; }
-.flaticon-lives:before { content: "\f101"; }
-.flaticon-cancel:before { content: "\f102"; }
-.flaticon-whack-a-mole:before { content: "\f103"; }
-.flaticon-whack-a-mole-1:before { content: "\f104"; }
+.flaticon-podium:before { content: "\f100"; }
+.flaticon-chronometer:before { content: "\f101"; }
+.flaticon-lives:before { content: "\f102"; }
+.flaticon-cancel:before { content: "\f103"; }
+.flaticon-whack-a-mole:before { content: "\f104"; }
 .flaticon-back:before { content: "\f105"; }
-.flaticon-back-1:before { content: "\f106"; }
+.flaticon-play-button:before { content: "\f106"; }
