@@ -63,7 +63,7 @@
     .join-options {
       display: grid;
       width: 100%;
-      row-gap: 10%;
+      row-gap: 20%;
 
       .join-options__cat {
         display: flex;
@@ -71,7 +71,7 @@
         justify-content: space-between;
 
         .join-option {
-          width: 45%;
+          width: 49%;
           // flex-grow: 1;
         }
       }
