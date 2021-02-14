@@ -28,8 +28,12 @@
 
     i::before {
       margin-left: 0;
-      font-size: 1.8rem;
+      font-size: 2rem;
     }
+
+    // .flaticon-cancel::before {
+    //   font-size: 1.3rem;
+    // }
 
     &.whacks,
     &.multiplier,
@@ -37,8 +41,13 @@
     &.resources > div {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
+    }
+
+    &.resources > div {
+      width: 85%;
+      height: 85%;
     }
 
     &.whacks {
