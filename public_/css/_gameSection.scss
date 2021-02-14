@@ -2,7 +2,8 @@
 @import '_animations.scss';
 
 .game__scoreboard {
-  margin: 2rem 1rem;
+  margin: 1rem;
+  margin-bottom: 2rem;
   padding: 0.2rem;
   display: grid;
   height: 25%;
@@ -23,6 +24,11 @@
     }
     .value {
       font-size: 1.2rem;
+    }
+
+    i::before {
+      margin-left: 0;
+      font-size: 1.8rem;
     }
 
     &.whacks,

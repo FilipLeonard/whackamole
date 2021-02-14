@@ -90,7 +90,7 @@ export default class GameController {
   }
 
   displayGameView() {
-    // DOMHelper.displayElement('#header__back');
+    // DOMHelper.displayElement('#btn__back');
     DOMHelper.hideElement(`#resource-battle`);
     DOMHelper.hideElement(`#resource-survival`);
     DOMHelper.displayElement(`#resource-${this.playerOptions.mode}`);
@@ -139,13 +139,13 @@ export default class GameController {
   }
 
   displayLeaderboardView() {
-    // DOMHelper.displayElement('#header__back');
+    // DOMHelper.displayElement('#btn__back');
     DOMHelper.displaySection('results');
   }
 
   connectBackButton() {
     document
-      .querySelector('#header__back')
+      .querySelector('#btn__back')
       .addEventListener('click', this.backButtonHandler.bind(this));
   }
 
@@ -161,7 +161,7 @@ export default class GameController {
   }
 
   displayHomeScreen() {
-    // DOMHelper.hideElement('#header__back');
+    // DOMHelper.hideElement('#btn__back');
     DOMHelper.displaySection('join');
   }
 

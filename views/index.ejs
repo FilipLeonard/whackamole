@@ -29,7 +29,8 @@
             <main>
                 <header class="header-main hidden">
                     <div class="header-main__content">
-                        <button id="header__back" class="btn-main">Back</button>
+                        <i id="btn__back" class="flaticon-back gradient-text"></i>
+                        <!-- <button id="btn__back" class="btn-main">Back</button> -->
                     </div>
                 </header>
                 <section class="join">
@@ -63,22 +64,28 @@
                     <div class="section__content">
                         <div class="game__scoreboard card">
                             <div class="scoreboard__group card whacks">
-                                <div class="label gradient-text">WHACKS</div>
+                                <!-- <label class="label gradient-text">WHACKS</label> -->
+                                <i class="flaticon-whack-a-mole-1 gradient-text"></i>
                                 <span id="current-whacks" class="value gradient-text">0</span>
                             </div>
-                            <div class="scoreboard__group card multiplier _gradient-text">
-                                <div class="label">MULTIPLIER</div>
-                                <span id="current-multiplier" class="value">1</span>
+                            <div class="scoreboard__group card multiplier">
+                                <!-- <label class="label gradient-text">MULTIPLIER
+                                </label> -->
+                                <i class="flaticon-cancel gradient-text"></i>
+                                <span id="current-multiplier" class="value gradient-text">1</span>
                             </div>
-                            <div class="scoreboard__group card resources _gradient-text">
+                            <div class="scoreboard__group card resources ">
                                 <div id="resource-battle" class="hidden">
-                                    <div class="label">TIME</div>
-                                    <span class="value" id="remaining-time">60</span>
+                                    <!-- <label class="label gradient-text">TIME
+                                    </label> -->
+                                    <i class="flaticon-chronometer gradient-text"></i>
+                                    <span class="value gradient-text" id="remaining-time">60</span>
                                 </div>
                                 <div id="resource-survival" class="not">
-                                    <div class="label">LIVES
-                                    </div>
-                                    <span class="value" id="remaining-lives">3</span>
+                                    <!-- <label class="label gradient-text">LIVES
+                                    </label> -->
+                                    <i class="flaticon-lives gradient-text"></i>
+                                    <span class="value gradient-text" id="remaining-lives">3</span>
                                 </div>
                             </div>
                             <div id="consecutive-tiles" class="scoreboard__group tiles">

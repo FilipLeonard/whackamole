@@ -94,6 +94,12 @@ input {
   }
 }
 
+#btn__back::before {
+  display: inline-block;
+  margin: 1rem 0;
+  font-size: 1.8rem;
+}
+
 section {
   display: flex;
   flex-flow: column;

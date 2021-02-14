@@ -84,7 +84,7 @@ main {
   -ms-flex-align: center;
   align-items: center;
 }
-.header-main #header__back {
+.header-main #btn__back {
   -ms-flex-item-align: start;
   align-self: flex-start;
 }
