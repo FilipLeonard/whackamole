@@ -31,7 +31,6 @@ export default class BattleGame extends Game {
           clearInterval(this.countdown);
           clearTimeout(this.battleTimer);
         },
-        // saving a reference to method Game.dispatchGameOver from parent class Game
         _dispatchGameOver: this.dispatchGameOver.bind(this),
       },
     });
