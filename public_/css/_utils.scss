@@ -111,6 +111,10 @@ input {
   font-size: 1.8rem;
 }
 
+.icon-button {
+  color: map-get($colors, main);
+}
+
 section {
   display: flex;
   flex-flow: column;

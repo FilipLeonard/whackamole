@@ -66,4 +66,19 @@ export default class DOMHelper {
     element.replaceWith(clonedElement);
     return clonedElement;
   }
+
+  static flashErrorMessageOnTop(targetEl, message) {
+    const errorNode = document.createElement('span');
+    const errorMessage = document.createTextNode(message);
+    errorNode.appendChild(errorMessage);
+    const rect = targetEl.getBoundingClientRect();
+    const onTopOfTargetPosition = rect.top - (rect.bottom - rect.top);
+    const style = `color:red; position: fixed; top: ${onTopOfTargetPosition}px`;
+    errorNode.setAttribute('style', style);
+
+    targetEl.insertAdjacentElement('beforebegin', errorNode);
+    setTimeout(() => {
+      errorNode.remove();
+    }, 1500);
+  }
 }

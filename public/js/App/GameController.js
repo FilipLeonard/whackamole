@@ -55,8 +55,8 @@ export default class GameController {
     const nameInput = document.querySelector('.join .name-input');
     const name = nameInput.value.trim();
     if (name.length < MIN_LENGTH_PLAYER_NAME) {
-      this.flashErrorMessage(
-        nameInput.parentNode,
+      DOMHelper.flashErrorMessageOnTop(
+        nameInput.parentElement,
         `Minimum ${MIN_LENGTH_PLAYER_NAME} characters`
       );
       throw new Error(
@@ -64,19 +64,6 @@ export default class GameController {
       );
     }
     return name;
-  }
-
-  flashErrorMessage(targetEl, message) {
-    const errorNode = document.createElement('span');
-    const errorMessage = document.createTextNode(message);
-    errorNode.appendChild(errorMessage);
-    errorNode.setAttribute('style', 'color:red; position: absolute; top: 26%;');
-
-    targetEl.insertAdjacentElement('beforebegin', errorNode);
-    const to = setTimeout(() => {
-      errorNode.remove();
-      clearTimeout(to);
-    }, 1500);
   }
 
   getPlayerOptions() {
