@@ -36,7 +36,6 @@ exports.getGames = async (req, res, next) => {
       points: g.points,
       createdAt: g.createdAt,
     }));
-    console.log(games);
     res.status(200).json({
       message: `Games for ${playerName} retrieved.`,
       data: { games },
