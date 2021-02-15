@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use(gameRoutes);
-app.use('potato', adminRoutes);
+app.use('/potato', adminRoutes);
 
 app.use('/500', errorController.get500);
 app.use(errorController.get404);

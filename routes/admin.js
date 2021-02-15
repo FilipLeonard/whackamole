@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get('/', adminController.getIndex);
 
+router.get('/games/:playerName', adminController.getGames);
+
 module.exports = router;
