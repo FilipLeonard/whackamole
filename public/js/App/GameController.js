@@ -90,7 +90,6 @@ export default class GameController {
   }
 
   displayGameView() {
-    // DOMHelper.displayElement('#btn__back');
     DOMHelper.hideElement(`#resource-battle`);
     DOMHelper.hideElement(`#resource-survival`);
     DOMHelper.displayElement(`#resource-${this.playerOptions.mode}`);
@@ -139,7 +138,6 @@ export default class GameController {
   }
 
   displayLeaderboardView() {
-    // DOMHelper.displayElement('#btn__back');
     DOMHelper.displaySection('results');
   }
 
@@ -161,7 +159,6 @@ export default class GameController {
   }
 
   displayHomeScreen() {
-    // DOMHelper.hideElement('#btn__back');
     DOMHelper.displaySection('join');
   }
 

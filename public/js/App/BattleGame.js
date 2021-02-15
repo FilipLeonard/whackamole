@@ -18,8 +18,7 @@ export default class BattleGame extends Game {
         setBattleTime() {
           this.battleTimer = setTimeout(() => {
             clearInterval(this.countdown);
-            clearInterval(this.gameLoop);
-            clearTimeout(this.battleTimer);
+            clearInterval(this._gameLoop);
             this._dispatchGameOver();
           }, this.remainingTime * 1000);
         },
@@ -42,7 +41,7 @@ export default class BattleGame extends Game {
       this.executeGameCycle.bind(this),
       this.options.CYCLE_TIME
     );
-    this.stats.time.gameLoop = this.gameLoop;
+    this.stats.time._gameLoop = this.gameLoop;
   }
 
   pause() {

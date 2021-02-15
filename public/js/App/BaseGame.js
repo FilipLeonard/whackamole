@@ -34,7 +34,19 @@ export default class Game {
         increaseConsecutives() {
           this.consecutives++;
           DOMHelper.addClass(`#tile${this.consecutives}`, 'active');
-          if (this.consecutives === 5) this.updateMultiplier();
+          if (this.consecutives === 5) {
+            DOMHelper.animateElement(
+              `#tile${this.consecutives}`,
+              'wiggle-and-scale',
+              500
+            );
+            DOMHelper.animateElement(
+              `.scoreboard__group.multiplier`,
+              'wiggle-and-scale',
+              500
+            );
+            this.updateMultiplier();
+          }
         },
         updateMultiplier() {
           this.multipliers.push(this.multiplier);
@@ -103,19 +115,12 @@ export default class Game {
   whackCard(card) {
     const whackedOnTime = card.classList.contains('active');
     if (whackedOnTime) {
-      this.animateCard(card, 'wiggle');
-      this.registerValidWhack(card);
+      DOMHelper.animateElement(card, 'wiggle', this.options.NEUTRAL_TIME);
+      this.registerValidWhack();
     } else {
-      this.animateCard(card, 'shake');
+      DOMHelper.animateElement(card, 'shake', this.options.NEUTRAL_TIME);
       this.registerFailedWhack();
     }
-  }
-
-  animateCard(card, animation) {
-    card.classList.add(animation);
-    setTimeout(() => {
-      card.classList.remove(animation);
-    }, this.options.NEUTRAL_TIME);
   }
 
   registerValidWhack() {
@@ -177,9 +182,6 @@ export default class Game {
     clearInterval(this.gameLoop);
     this.resetStats();
     this.resetGrid();
-    /* can't remove it like this because the actual listener is not whackHandler, 
-    it's a binded instance of it - whackHandler.bind(this) */
-    // this.gameBoard.removeEventListener('click', this.whackHandler);
     DOMHelper.clearEventListeners(this.gameBoard);
   }
 

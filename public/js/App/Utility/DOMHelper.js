@@ -1,18 +1,39 @@
 export default class DOMHelper {
   static displayElement(elementOrSelector) {
-    let element;
-    if (typeof elementOrSelector === 'string')
-      element = document.querySelector(elementOrSelector);
-    if (typeof elementOrSelector === 'object') element = elementOrSelector;
+    const element = DOMHelper._getElement(elementOrSelector);
     element.classList.remove('hidden');
   }
 
   static hideElement(elementOrSelector) {
+    const element = DOMHelper._getElement(elementOrSelector);
+    element.classList.add('hidden');
+  }
+
+  static _getElement(elementOrSelector) {
     let element;
     if (typeof elementOrSelector === 'string')
       element = document.querySelector(elementOrSelector);
     if (typeof elementOrSelector === 'object') element = elementOrSelector;
-    element.classList.add('hidden');
+    return element;
+  }
+
+  static addClass(elementOrSelector, className) {
+    const element = DOMHelper._getElement(elementOrSelector);
+    element.classList.add(className);
+  }
+
+  static removeClass(elementOrSelector, className) {
+    const element = DOMHelper._getElement(elementOrSelector);
+    element.classList.remove(className);
+  }
+
+  static animateElement(elementOrSelector, animation, msUntilRemoval) {
+    const element = DOMHelper._getElement(elementOrSelector);
+    if (!element) throw new Error('Element to be animated not found');
+    element.classList.add(animation);
+    setTimeout(() => {
+      element.classList.remove(animation);
+    }, msUntilRemoval);
   }
 
   static displaySection(sectionClass) {
@@ -44,23 +65,5 @@ export default class DOMHelper {
     const clonedElement = element.cloneNode(true);
     element.replaceWith(clonedElement);
     return clonedElement;
-  }
-
-  static addClass(elementOrSelector, className) {
-    const element = DOMHelper._getElement(elementOrSelector);
-    element.classList.add(className);
-  }
-
-  static removeClass(elementOrSelector, className) {
-    const element = DOMHelper._getElement(elementOrSelector);
-    element.classList.remove(className);
-  }
-
-  static _getElement(elementOrSelector) {
-    let element;
-    if (typeof elementOrSelector === 'string')
-      element = document.querySelector(elementOrSelector);
-    if (typeof elementOrSelector === 'object') element = elementOrSelector;
-    return element;
   }
 }

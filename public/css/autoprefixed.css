@@ -41,7 +41,7 @@ main {
   -ms-grid-column-align: center;
   place-self: center;
 }
-.header .header__content {
+.header .header-start__content {
   width: 21rem;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -54,7 +54,7 @@ main {
   -ms-flex-align: center;
   align-items: center;
 }
-.header .header__content .header__title {
+.header .header-start__content .header-start__title {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 0;

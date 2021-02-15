@@ -1,16 +1,30 @@
 import Game from './BaseGame.js';
+import DOMHelper from './Utility/DOMHelper.js';
 
 export default class SurvivalGame extends Game {
   constructor(userOptions) {
     super(userOptions);
     Object.assign(this.stats, {
-      lives: {
+      resources: {
         el: document.querySelector('#remaining-lives'),
         remainingLives: 3,
+        decreaseLives() {
+          this.looseOne();
+          if (this.remainingLives === 0) {
+            clearInterval(this._gameLoop);
+            this._dispatchGameOver();
+          }
+        },
         looseOne() {
           this.remainingLives--;
           this.el.textContent = this.remainingLives;
+          DOMHelper.animateElement(
+            this.el.previousElementSibling,
+            'scale',
+            500
+          );
         },
+        _dispatchGameOver: this.dispatchGameOver.bind(this),
       },
     });
   }
@@ -20,21 +34,16 @@ export default class SurvivalGame extends Game {
       this.executeGameCycle.bind(this),
       this.options.CYCLE_TIME
     );
-    this.stats.lives.gameLoop = this.gameLoop;
+    this.stats.resources._gameLoop = this.gameLoop;
   }
 
   processFailedWhack() {
     Game.prototype.processFailedWhack.call(this);
-    this.stats.lives.looseOne();
-    if (this.stats.lives.remainingLives === 0) {
-      clearInterval(this.gameLoop);
-      this.dispatchGameOver();
-    }
+    this.stats.resources.decreaseLives();
   }
 
   resetStats() {
     Game.prototype.resetStats.call(this);
-    // TODO add magic number to in config.js
-    this.stats.lives.el.textContent = 3;
+    this.stats.resources.el.textContent = 3;
   }
 }

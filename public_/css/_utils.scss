@@ -56,8 +56,19 @@ input {
   animation: wiggle 0.3s linear;
 }
 
+.scale {
+  animation: scale 0.3s linear;
+}
+.wiggle-and-scale {
+  animation: wiggle-and-scale 0.3s linear;
+}
+
 .shake {
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.color_change {
+  animation: color_change 0.5s linear;
 }
 
 .btn-main {

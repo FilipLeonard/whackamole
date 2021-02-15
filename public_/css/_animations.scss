@@ -28,6 +28,43 @@
     transform: rotateZ(0deg);
   }
 }
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.5);
+  }
+  50% {
+    transform: scale(2);
+  }
+  75% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes wiggle-and-scale {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  25% {
+    transform: rotateZ(10deg);
+  }
+  50% {
+    transform: rotateZ(0deg) scale(2);
+  }
+  75% {
+    transform: rotateZ(-10deg);
+  }
+
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
 
 @keyframes switch-color {
   0% {
@@ -59,5 +96,14 @@
   40%,
   60% {
     transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes color_change {
+  from {
+    background-color: white;
+  }
+  to {
+    background-color: red;
   }
 }
