@@ -74,6 +74,13 @@ exports.patchGameFinish = async (req, res, next) => {
     runningGame.partialPoints = await Scoring.calculatePoints('easy', whacks);
     const finishedGame = await runningGame.save();
     if (!finishedGame) throwError(404, 'Finished game not saved!');
+
+    const player = await Player.findById(finishedGame.player);
+    if (!player) throwError(404, 'Finishing player not found!');
+    player.gamesFinished++;
+    const updatedPlayer = await player.save();
+    if (!updatedPlayer) throwError(404, 'Updatedx finishing player not saved!');
+
     res.status(200).json({
       message: 'Game finished.',
       data: { partialPoints: finishedGame.partialPoints },
