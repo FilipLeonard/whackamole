@@ -5,7 +5,7 @@
 
     <body>
         <main>
-            <section id="dynasties">
+            <section id="players">
                 <select name="dynasties" id="dynasty-select">
                     <option value="all">All</option>
                     <% dynasties.forEach((dynasty)=> { %>
@@ -14,9 +14,6 @@
                         </option>
                         <% }) %>
                 </select>
-            </section>
-            <hr>
-            <section id="players">
                 <ul id="players-list">
                     <% players.forEach((player)=> { %>
                         <li id="<%= player.name %>" class="players__player" data-dynasty="<%= player.dynasty %>">
@@ -26,7 +23,16 @@
                 </ul>
             </section>
             <hr>
-            <section id="games">
+            <section id="games" class="hidden">
+                <select name="game-status" id="game-status-select">
+                    <option value="all">All</option>
+                    <option value="started">Started</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="finished">Finished</option>
+                    <option value="submitted">Submitted</option>
+                </select>
+                <ul id="player-games-list">
+                </ul>
             </section>
         </main>
     </body>
