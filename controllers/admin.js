@@ -1,3 +1,5 @@
+const { startOfDay, endOfDay } = require('date-fns');
+
 const Dynasty = require('../models/dynasty');
 const Game = require('../models/game');
 const Player = require('../models/player');
@@ -22,6 +24,36 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getGames = async (req, res, next) => {
+  try {
+    const { start: startDate, end: endDate } = req.query;
+    const completeGames = await Game.find({
+      createdAt: {
+        $gte: startOfDay(new Date(startDate)),
+        $lt: endOfDay(new Date(endDate)),
+      },
+    })
+      .populate('player')
+      .sort('-createdAt');
+    if (!completeGames)
+      throwError(404, `Games for dates ${startDate} - ${endDate} not found!`);
+    const games = completeGames.map(g => ({
+      state: g.state,
+      whacks: g.whacks,
+      partialPoints: g.partialPoints,
+      points: g.points,
+      createdAt: g.createdAt,
+      player: g.player.name,
+    }));
+    res.status(200).json({
+      message: `Games for dates ${startDate} - ${endDate} retrieved.`,
+      data: { games },
+    });
+  } catch (err) {
+    next(getCompleteError(err));
+  }
+};
+
+exports.getPlayerGames = async (req, res, next) => {
   try {
     const { playerName } = req.params;
     const player = await Player.find({ name: playerName });

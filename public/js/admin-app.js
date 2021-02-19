@@ -1,11 +1,21 @@
 const dynastySelect = document.getElementById('dynasty-select');
 const playersList = document.getElementById('players-list');
-const gamesSection = document.getElementById('games');
+
+const playerGamesSection = document.getElementById('player-games');
 const gameStateSelect = document.getElementById('game-status-select');
 const playerGamesList = document.getElementById('player-games-list');
 
+const gamesSection = document.getElementById('games');
+const inputDateStart = document.getElementById('game-date-start');
+const inputDateEnd = document.getElementById('game-date-end');
+const gamesList = document.getElementById('games-list');
+
+[inputDateStart, inputDateEnd].forEach(
+  dateInput => (dateInput.valueAsDate = new Date())
+);
+
 dynastySelect.addEventListener('input', event => {
-  clearGameList();
+  clearPlayerGamesList();
   const selectedDynasty = dynastySelect.value;
 
   const players = playersList.children;
@@ -37,9 +47,9 @@ playersList.addEventListener('click', async e => {
         `<li data-state=${g.state}>${g.state} | ${g.whacks} | ${g.partialPoints}</li>`
     )
     .join('')}`;
-  clearGameList();
+  clearPlayerGamesList();
   playerGamesList.insertAdjacentHTML('afterbegin', markup);
-  gamesSection.classList.remove('hidden');
+  playerGamesSection.classList.remove('hidden');
 });
 
 gameStateSelect.addEventListener('input', event => {
@@ -58,6 +68,37 @@ gameStateSelect.addEventListener('input', event => {
   }
 });
 
-function clearGameList() {
+function clearPlayerGamesList() {
   playerGamesList.innerHTML = '';
 }
+
+function clearGamesList() {
+  gamesList.innerHTML = '';
+}
+
+[inputDateStart, inputDateEnd].forEach(dateInput =>
+  dateInput.addEventListener('change', async e => {
+    const startDate = inputDateStart.value;
+    const endDate = inputDateEnd.value;
+
+    const res = await fetch(`/potato/games?start=${startDate}&end=${endDate}`);
+
+    if (!res.ok) return console.log('fetch games failed');
+    const { data } = await res.json();
+    const { games } = data;
+
+    const markup = `${games
+      .map(
+        g =>
+          `<li data-player=${g.player}>${new Date(
+            g.createdAt
+          ).toDateString()} | ${g.player} | ${g.state} | ${g.whacks} | ${
+            g.partialPoints
+          }</li>`
+      )
+      .join('')}`;
+
+    clearGamesList();
+    gamesList.insertAdjacentHTML('afterbegin', markup);
+  })
+);
