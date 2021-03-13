@@ -29,10 +29,12 @@ Here is a working live demo: https://whackerston.herokuapp.com/
 
 _I allocated roughly two weeks for building this app so I decided to build one deployment that would serve the views but also provide all the necessary REST endpoints_
 
-- The project is built as a stand alone node server, without a separate frontend deployment.
-- Every view is rendered server-side while style and browser-logic files are served statically.
-- The project structure follows the MVC pattern and is conceptually organized around three areas: _auth_, _admin_ and _shop_ (e.g. user authentication, own products administration and general web shop).
-- Domain object models _User_, _Product_ and _Order_ interface with noSQL database MongoDB.
+- The project structure follows the MVC pattern.
+- Domain object models _Player_, _Game_, _Scoring_ and _Dynasty_ interface with noSQL database MongoDB.
+  - a game is played by a player, a player has a high-score game, a player belongs to a dynasty, a dynasty has a scoring method
+- Views are rendered server-side
+  - By far the most important `index.ejs` holds most of the HTML structure and is
+  - `404.ejs` and `500.ejs` are
 - Sessions are used to authenticate requests for protected resources and these are also stored on MongoDB, in the same database.
 - Product images are stored on the server and image paths on the database
 - Invoice PDFs are generated and stored on the server
