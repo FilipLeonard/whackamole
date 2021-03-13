@@ -29,6 +29,7 @@ Here is a working live demo: https://whackerston.herokuapp.com/
 
 _I allocated roughly two weeks for building this app so I decided to build a single, hybrid deployment that would both serve a handful of views and also provide different REST endpoints._
 
+- Mobile First Desing
 - The project structure follows the MVC pattern.
 - Domain object models _Player_, _Game_, _Scoring_ and _Dynasty_ interface with MongoDB via `mongoose`.
   - a game is played by a player, a player has a high-score game, a player belongs to a dynasty, a dynasty has a scoring method
