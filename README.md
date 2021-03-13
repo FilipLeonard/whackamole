@@ -2,7 +2,7 @@
 
 _Whack-A-Mole inspired game_
 
-There's no mole in this game but there's also no fun in naming it "Tap-The-Tile". Whackerston is a simple web game served by a stand alone Node.js application built during my learning [journey](https://github.com/FilipLeonard/FilipLeonard/blob/main/pivoting.md). It is powered by Express and EJS. The UI was developed with plain JavaScript and Sass.
+There's no mole in this game but there's also no fun in naming it "Tap-The-Tile". Whackerston is a simple web game served by a stand alone Node.js application built during my [learning journey](https://github.com/FilipLeonard/FilipLeonard/blob/main/pivoting.md). It is powered by Express and EJS. The UI was developed with plain JavaScript and Sass.
 
 ![Game Preview](https://i.imgur.com/PLVE8Kp.png)
 
