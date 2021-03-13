@@ -27,7 +27,7 @@ Here is a working live demo: https://whackerston.herokuapp.com/
 
 ## General Info
 
-_I allocated roughly two weeks for building this app so I decided to build one deployment that would serve the views but also provide all the necessary REST endpoints_
+_I allocated roughly two weeks for building this app so I decided to build one single, hybrid deployment that would serve a handful of views and also provide different REST endpoints._
 
 - The project structure follows the MVC pattern.
 - Domain object models _Player_, _Game_, _Scoring_ and _Dynasty_ interface with noSQL database MongoDB.
