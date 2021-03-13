@@ -27,34 +27,19 @@ Here is a working live demo: https://whackerston.herokuapp.com/
 
 ## General Info
 
-_I allocated roughly two weeks for building this app so I decided to build one single, hybrid deployment that would serve a handful of views and also provide different REST endpoints._
+_I allocated roughly two weeks for building this app so I decided to build a single, hybrid deployment that would both serve a handful of views and also provide different REST endpoints._
 
 - The project structure follows the MVC pattern.
-- Domain object models _Player_, _Game_, _Scoring_ and _Dynasty_ interface with noSQL database MongoDB.
+- Domain object models _Player_, _Game_, _Scoring_ and _Dynasty_ interface with MongoDB via `mongoose`.
   - a game is played by a player, a player has a high-score game, a player belongs to a dynasty, a dynasty has a scoring method
 - Views are rendered server-side
-  - By far the most important `index.ejs` holds most of the HTML structure and is
-  - `404.ejs` and `500.ejs` are
-- Sessions are used to authenticate requests for protected resources and these are also stored on MongoDB, in the same database.
-- Product images are stored on the server and image paths on the database
-- Invoice PDFs are generated and stored on the server
-
----
-
-## Features
-
-- Authentication
-  - simple email & password signup/login
-  - password reset
-  - auto login with sessions
-- Administration
-  - Own products browse
-  - Product add, edit or delete
-- General Shop
-  - Products browse/detail
-  - Shopping cart
-  - Past orders with simple, downloadable PDF invoices
-- Mobile friendly
+  - `index.ejs` is served on a GET `/` request and contains most of the HTML structure
+  - `404.ejs` and `500.ejs` are fallbacks for unregistered routes and server errors
+- REST endpoints expect and return json format:
+  - GET `/leaderboard`
+  - PUT `/game-start`,
+  - PATCH `/game-cancel/:gameId`, `/game-finish/:gameId` and `/submit-score/:gameId`
+- The game logic runs in the browser and is statically served along with the styles
 
 ---
 
@@ -62,6 +47,5 @@ _I allocated roughly two weeks for building this app so I decided to build one s
 
 - Express w. [EJS templating engine](https://ejs.co/)
 - [mongoose](https://ejs.co/)
-- express-session w. connect-mongo-db-session
-- bcrypt & express-validator
-- other 'standard' middleware
+- Other 'standard' middleware
+- Sass, CSS Grid and Flexbox

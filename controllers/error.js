@@ -3,7 +3,6 @@ exports.get404 = (req, res, next) => {
 };
 
 exports.get500 = (req, res, next) => {
-  console.log('rendering 500 view');
   res.status(500).render('500');
 };
 

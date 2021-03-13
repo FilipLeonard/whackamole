@@ -13,7 +13,6 @@ const gameRoutes = require('./routes/game');
 const adminRoutes = require('./routes/admin');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@clusternodecomplete.jg2xr.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
-// `mongodb+srv://leooonard:qwerty789@clusternodecomplete.jg2xr.mongodb.net/whackamole`;
 
 const app = express();
 
