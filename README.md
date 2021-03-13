@@ -27,6 +27,8 @@ Here is a working live demo: https://whackerston.herokuapp.com/
 
 ## General Info
 
+_I allocated roughly two weeks for building this app so I decided to build one deployment that would serve the views but also provide all the necessary REST endpoints_
+
 - The project is built as a stand alone node server, without a separate frontend deployment.
 - Every view is rendered server-side while style and browser-logic files are served statically.
 - The project structure follows the MVC pattern and is conceptually organized around three areas: _auth_, _admin_ and _shop_ (e.g. user authentication, own products administration and general web shop).
